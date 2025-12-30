@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { Code2, Bot, Layers, Terminal, Cpu, Globe } from "lucide-react";
 import Marquee from "@/components/magicui/marquee";
 import { cn } from "@/lib/utils";
@@ -37,6 +37,113 @@ const AnimatedIcon = ({ icon: Icon, color, delay }: { icon: any, color: string, 
     </motion.div>
   );
 };
+
+const WindowsTerminal = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  
+  const [typedCommand, setTypedCommand] = useState("");
+  const [showOutput, setShowOutput] = useState(false);
+  const [completed, setCompleted] = useState(false);
+
+  const command = "type welcome.txt";
+
+  useEffect(() => {
+    if (!isInView) return;
+
+    let currentIndex = 0;
+    let timeout: NodeJS.Timeout;
+
+    const typeNextChar = () => {
+      if (currentIndex < command.length) {
+        setTypedCommand(command.slice(0, currentIndex + 1));
+        currentIndex++;
+        // Random typing speed for realism (50-150ms)
+        timeout = setTimeout(typeNextChar, 50 + Math.random() * 100); 
+      } else {
+        // Finished typing, wait a bit before showing output
+        setTimeout(() => {
+          setShowOutput(true);
+          setCompleted(true);
+        }, 500);
+      }
+    };
+
+    // Initial delay before starting to type
+    const startTimeout = setTimeout(() => {
+       typeNextChar();
+    }, 1000);
+
+    return () => {
+      clearTimeout(timeout);
+      clearTimeout(startTimeout);
+    };
+  }, [isInView]);
+
+  return (
+    <motion.div 
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{ duration: 0.5 }}
+      className="w-full max-w-3xl mx-auto rounded-xl overflow-hidden bg-[#0c0c0c] border border-gray-800 shadow-2xl font-mono text-sm md:text-base mt-10"
+    >
+      {/* Title Bar */}
+      <div className="bg-[#1f1f1f] px-4 py-2 flex items-center justify-between select-none border-b border-gray-800">
+        <div className="flex items-center gap-2">
+           <Terminal className="w-4 h-4 text-gray-400" />
+           <span className="text-gray-200 text-xs">Command Prompt</span>
+        </div>
+        <div className="flex gap-4 items-center">
+           <div className="text-gray-400 hover:text-white cursor-pointer text-xs">
+             ─
+           </div>
+           <div className="text-gray-400 hover:text-white cursor-pointer text-[10px] border border-gray-500 w-2.5 h-2.5 flex items-center justify-center">
+           </div>
+           <div className="text-gray-400 hover:text-red-500 cursor-pointer text-lg leading-none">
+             ×
+           </div>
+        </div>
+      </div>
+      
+      {/* Content */}
+      <div className="p-6 text-gray-300 font-mono leading-relaxed bg-black text-left min-h-[300px]">
+        <div className="mb-4">
+          <span>Microsoft Windows [Version 10.0.19045.3693]</span><br/>
+          <span>(c) Microsoft Corporation. All rights reserved.</span>
+        </div>
+
+        <div className="mb-4">
+          <span className="text-gray-300">C:\Users\Administrator\Desktop\gd-blogs&gt;</span>
+          <span className="ml-2 text-gray-100">{typedCommand}</span>
+          {!showOutput && (
+            <span className="animate-pulse inline-block w-2 h-4 bg-gray-300 align-middle ml-1"></span>
+          )}
+        </div>
+
+        {showOutput && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="space-y-1 mb-4 text-white"
+          >
+             <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>&gt; Hello World!</motion.div>
+             <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}>&gt; 欢迎来到我的数字花园。</motion.div>
+             <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }}>&gt; 这里记录了我关于代码、架构和技术的思考。</motion.div>
+             <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.7 }}>&gt; 保持好奇，持续构建。</motion.div>
+          </motion.div>
+        )}
+
+        {completed && (
+          <div>
+             <span className="text-gray-300">C:\Users\Administrator\Desktop\gd-blogs&gt;</span>
+             <span className="animate-pulse inline-block w-2 h-4 bg-gray-300 align-middle ml-1"></span>
+          </div>
+        )}
+      </div>
+    </motion.div>
+  )
+}
 
 export function SectionCodeCraft() {
   return (
@@ -122,6 +229,9 @@ export function SectionCodeCraft() {
             </div>
           </motion.div>
         </div>
+
+        {/* Windows Terminal */}
+        <WindowsTerminal />
 
         {/* 技能跑马灯 */}
         <div className="space-y-8">
