@@ -10,7 +10,12 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 // 封装一个视差组件 (给 Hero 用)
-function ParallaxSection({ children, className }: any) {
+interface ParallaxSectionProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+function ParallaxSection({ children, className }: ParallaxSectionProps) {
     const { scrollY } = useScroll();
     const y = useTransform(scrollY, [0, 500], [0, 200]); // 滚动 500px，元素下移 200px
     const opacity = useTransform(scrollY, [0, 300], [1, 0]); // 滚动 300px，元素消失
@@ -23,7 +28,12 @@ function ParallaxSection({ children, className }: any) {
 }
 
 // 封装一个简单的滚动显现组件
-function ScrollRevealSection({ children, className }: any) {
+interface ScrollRevealSectionProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+function ScrollRevealSection({ children, className }: ScrollRevealSectionProps) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,

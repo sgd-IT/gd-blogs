@@ -5,8 +5,22 @@ import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { User } from "lucide-react";
 import Image from "next/image";
 
+// 定义图标数据类型
+interface OrbitIconData {
+  Icon?: React.ComponentType<{ size?: number; strokeWidth?: number }>;
+  color: string;
+  delay: number;
+  radius: number;
+  size: number;
+  duration: number;
+  reverse?: boolean;
+  startAngle: number;
+  image?: string;
+  name?: string;
+}
+
 // 定义图标数据
-const orbitIcons = [
+const orbitIcons: OrbitIconData[] = [
   // 1. Idea (Largest, Inner)
   { 
     image: "/ico/idea.ico", 
@@ -151,7 +165,7 @@ const OrbitingIntroduction = () => {
         <div className="absolute h-[520px] w-[520px] rounded-full border border-dashed border-gray-200 dark:border-gray-800 opacity-20" />
         <div className="absolute h-[840px] w-[840px] rounded-full border border-gray-100 dark:border-gray-900 opacity-10" />
 
-        {orbitIcons.map(({ Icon, color, delay, radius, size, duration, reverse, startAngle, image, name }: any, index) => (
+        {orbitIcons.map(({ Icon, color, delay, radius, size, duration, reverse, startAngle, image, name }, index) => (
           <OrbitingIcon
             key={index}
             radius={radius}

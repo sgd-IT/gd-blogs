@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Code2, Bot, Layers, Terminal, Cpu, Globe } from "lucide-react";
+import { Code2, Bot, Terminal, Cpu, Scroll, Plus, Minus } from "lucide-react";
 import Marquee from "@/components/magicui/marquee";
 import { cn } from "@/lib/utils";
 
@@ -12,7 +12,13 @@ const skills = [
 ];
 
 // 动态图标组件：会呼吸、发光
-const AnimatedIcon = ({ icon: Icon, color, delay }: { icon: any, color: string, delay: number }) => {
+interface AnimatedIconProps {
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  color: string;
+  delay: number;
+}
+
+const AnimatedIcon = ({ icon: Icon, color, delay }: AnimatedIconProps) => {
   return (
     <motion.div
       initial={{ scale: 0.8, opacity: 0 }}
@@ -145,6 +151,97 @@ const WindowsTerminal = () => {
   )
 }
 
+const PixelSkillCard = ({ skill }: { skill: string }) => {
+  const [level, setLevel] = useState(5);
+  const maxLevel = 10;
+
+  const handleIncrease = (e: React.MouseEvent) => {
+    e.stopPropagation(); // 防止冒泡
+    if (level < maxLevel) setLevel(l => l + 1);
+  };
+
+  const handleDecrease = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (level > 0) setLevel(l => l - 1);
+  };
+
+  // 简单确定性伪随机
+  const seed = skill.length + skill.charCodeAt(0);
+  const baseStr = 80 + (seed * 7) % 20; 
+  const baseInt = 200 + (seed * 13) % 55;
+
+  // 动态属性计算
+  const currentStr = baseStr + (level * 3);
+  const currentInt = baseInt + (level * 5);
+
+  return (
+    <div className="relative group mx-3 select-none transition-transform hover:-translate-y-1">
+       {/* 阴影层 */}
+      <div className="absolute inset-0 bg-gray-900 dark:bg-gray-100 translate-x-1 translate-y-1" />
+      
+      {/* 主体层 */}
+      <div className="relative w-64 bg-white dark:bg-black border-2 border-gray-900 dark:border-white p-4 font-mono text-xs">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-4 border-b-2 border-gray-200 dark:border-gray-800 pb-2">
+          <span className="font-bold uppercase truncate max-w-[150px] text-sm" style={{ fontFamily: 'var(--font-pixel)' }}>
+            {skill}
+          </span>
+          <Scroll className="w-4 h-4 text-gray-400" />
+        </div>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-2 gap-4 mb-4 text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+           <div>STR: <span className="text-gray-900 dark:text-white font-bold transition-all duration-300">{currentStr}</span></div>
+           <div>INT: <span className="text-gray-900 dark:text-white font-bold transition-all duration-300">{currentInt}</span></div>
+        </div>
+
+        {/* Level Control */}
+        <div className="flex items-center justify-between mb-2">
+           <span className="font-bold text-gray-900 dark:text-white">LV.{level}</span>
+           <div className="flex gap-2">
+             <button 
+               onClick={handleDecrease}
+               className="w-6 h-6 flex items-center justify-center border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 active:translate-y-[1px] disabled:opacity-50 disabled:cursor-not-allowed text-gray-600 dark:text-gray-300"
+               disabled={level <= 0}
+             >
+               <Minus size={12} />
+             </button>
+             <button 
+               onClick={handleIncrease}
+               className="w-6 h-6 flex items-center justify-center border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 active:translate-y-[1px] disabled:opacity-50 disabled:cursor-not-allowed text-gray-600 dark:text-gray-300"
+               disabled={level >= maxLevel}
+             >
+               <Plus size={12} />
+             </button>
+           </div>
+        </div>
+
+        {/* Progress Bar */}
+        <div className="relative h-3 w-full border border-gray-300 dark:border-gray-700 p-[2px]">
+           <div 
+             className={cn(
+               "h-full transition-all duration-300 relative",
+               level >= maxLevel ? "bg-gradient-to-r from-yellow-400 to-orange-500" : "bg-green-500"
+             )}
+             style={{ width: `${(level / maxLevel) * 100}%` }}
+           >
+             {level >= maxLevel && (
+               <div className="absolute inset-0 bg-white/30 animate-pulse" />
+             )}
+           </div>
+        </div>
+        
+        {/* Max Level Badge */}
+        {level >= maxLevel && (
+          <div className="absolute -top-2 -right-2 bg-yellow-400 text-black text-[9px] font-bold px-2 py-0.5 border border-black shadow-sm rotate-12 z-10" style={{ fontFamily: 'var(--font-pixel)' }}>
+            MAX
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 export function SectionCodeCraft() {
   return (
     <section className="py-24 px-4 md:px-8 relative overflow-hidden bg-white dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
@@ -233,25 +330,22 @@ export function SectionCodeCraft() {
         {/* Windows Terminal */}
         <WindowsTerminal />
 
-        {/* 技能跑马灯 */}
-        <div className="space-y-8">
-           <div className="text-center text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">
-             Technologies I Use
+        {/* 技能跑马灯 - RPG 风格 */}
+        <div className="space-y-12">
+           <div className="text-center space-y-2">
+             <div className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]" style={{ fontFamily: 'var(--font-pixel)' }}>
+               Ability Status
+             </div>
+             <div className="text-[10px] text-gray-400">Hover to pause & adjust stats</div>
            </div>
            
-           <div className="relative">
-             <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white dark:from-black to-transparent z-10"></div>
-             <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white dark:from-black to-transparent z-10"></div>
+           <div className="relative py-4">
+             <div className="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white dark:from-black to-transparent z-10"></div>
+             <div className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white dark:from-black to-transparent z-10"></div>
              
-             <Marquee pauseOnHover className="[--duration:30s] [--gap:2rem]">
+             <Marquee pauseOnHover className="[--duration:40s] [--gap:0rem]">
               {skills.map((skill) => (
-                <div
-                  key={skill}
-                  className="flex items-center gap-3 px-6 py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:border-gray-300 dark:hover:border-white/30 hover:text-black dark:hover:text-white transition-all cursor-default shadow-sm dark:shadow-none"
-                >
-                  <Globe className="w-4 h-4 text-gray-400 dark:text-gray-500" />
-                  {skill}
-                </div>
+                <PixelSkillCard key={skill} skill={skill} />
               ))}
             </Marquee>
           </div>

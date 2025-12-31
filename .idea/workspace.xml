@@ -4,18 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c483800a-5e13-453c-ad9b-41a0499457df" name="更改" comment="博客第二分区初始化">
-      <change afterPath="$PROJECT_DIR$/public/ico/cursor.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/ico/docker.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/ico/google.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/ico/idea.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/ico/msedge.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/ico/steam.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/ico/webstorm.ico" afterDir="false" />
+    <list default="true" id="c483800a-5e13-453c-ad9b-41a0499457df" name="更改" comment="博客第二分区-添加了命令行欢迎界面&#10;必读栏目和自己的笔记栏目&#10;技能栏不见了&#10;优化了第一分区的星系图标">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/OrbitingIntroduction.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/OrbitingIntroduction.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/magicui/marquee.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/magicui/marquee.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/section-code-craft.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/section-code-craft.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/section-knowledge.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/section-knowledge.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +34,9 @@
     &quot;accountId&quot;: &quot;94b2207b-8d8f-4570-8c64-d961ab18cda2&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -45,28 +45,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "master",
-    "js.debugger.nextJs.config.created.client": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "C:/Users/Administrator/Desktop/gd-blogs/public",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.dev.executor": "Run",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;js.debugger.nextJs.config.created.client&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Administrator/Desktop/gd-blogs/public&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Administrator\\Desktop\\gd-blogs\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Administrator\Desktop\gd-blogs\public" />
@@ -112,7 +113,8 @@
       <workItem from="1766987550952" duration="2320000" />
       <workItem from="1766991089165" duration="3196000" />
       <workItem from="1766997562864" duration="160000" />
-      <workItem from="1767059294979" duration="9129000" />
+      <workItem from="1767059294979" duration="9334000" />
+      <workItem from="1767163246871" duration="2218000" />
     </task>
     <task id="LOCAL-00001" summary="博客第二分区初始化">
       <option name="closed" value="true" />
@@ -122,7 +124,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766997697321</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="博客第二分区-添加了命令行欢迎界面&#10;必读栏目和自己的笔记栏目&#10;技能栏不见了&#10;优化了第一分区的星系图标">
+      <option name="closed" value="true" />
+      <created>1767076441237</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1767076441237</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -153,6 +163,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="博客第二分区初始化" />
-    <option name="LAST_COMMIT_MESSAGE" value="博客第二分区初始化" />
+    <MESSAGE value="博客第二分区-添加了命令行欢迎界面&#10;必读栏目和自己的笔记栏目&#10;技能栏不见了&#10;优化了第一分区的星系图标" />
+    <option name="LAST_COMMIT_MESSAGE" value="博客第二分区-添加了命令行欢迎界面&#10;必读栏目和自己的笔记栏目&#10;技能栏不见了&#10;优化了第一分区的星系图标" />
   </component>
 </project>
