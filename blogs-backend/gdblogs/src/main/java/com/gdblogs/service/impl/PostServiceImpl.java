@@ -110,8 +110,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         if (userId != null && userId > 0) {
             user = userService.getById(userId);
         }
-        LoginUserVO loginUserVO = userService.getLoginUser(request);
-        postVO.setUser(loginUserVO);
+        postVO.setUser(userService.getLoginUserVO(user));
         // 2. 将 tags json 字符串转为 List
         String tagsStr = post.getTags();
         if (StrUtil.isNotBlank(tagsStr)) {
@@ -141,7 +140,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             if (userIdUserListMap.containsKey(userId)) {
                 user = userIdUserListMap.get(userId).get(0);
             }
-            postVO.setUser(userService.getLoginUser(request));
+            postVO.setUser(userService.getLoginUserVO(user));
             // tags 转换
             String tagsStr = post.getTags();
             if (StrUtil.isNotBlank(tagsStr)) {

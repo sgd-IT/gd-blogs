@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { User } from "lucide-react";
+import { ChevronDown, FileText, PenLine, Plus, User } from "lucide-react";
 
 interface LoginUserVO {
   id: number;
@@ -19,15 +19,18 @@ const navItems = [
   { name: "关于", path: "/about" },
 ];
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8124";
+
 export default function Navbar() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [loginUser, setLoginUser] = useState<LoginUserVO | null>(null);
+  const [isCreateMenuOpen, setIsCreateMenuOpen] = useState(false);
 
   useEffect(() => {
     const fetchLoginUser = async () => {
       try {
-        const res = await fetch("http://localhost:8124/user/get/login", {
+        const res = await fetch(`${API_BASE_URL}/user/get/login`, {
           method: "GET",
           credentials: "include",
         });
@@ -41,6 +44,22 @@ export default function Navbar() {
     };
     fetchLoginUser();
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/user/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (data.code === 0) {
+        // Navbar 位于 layout，不会自动重新挂载；这里直接刷新以更新登录态
+        window.location.href = "/";
+      }
+    } catch (error) {
+      console.error("退出登录失败", error);
+    }
+  };
 
   return (
     <nav className="fixed top-0 z-50 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md dark:border-gray-800 dark:bg-black/80">
@@ -85,6 +104,57 @@ export default function Navbar() {
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
                   {loginUser.userName}
                 </span>
+
+                {/* Create Button + Dropdown */}
+                <div
+                  className="relative"
+                  onMouseEnter={() => setIsCreateMenuOpen(true)}
+                  onMouseLeave={() => setIsCreateMenuOpen(false)}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setIsCreateMenuOpen((v) => !v)}
+                    className="inline-flex items-center gap-1 rounded-full bg-orange-500 px-3 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-orange-600"
+                  >
+                    <Plus className="h-4 w-4" />
+                    创作
+                    <ChevronDown className="h-4 w-4 opacity-90" />
+                  </button>
+
+                  {isCreateMenuOpen ? (
+                    <div className="absolute right-0 mt-2 w-44 rounded-xl border border-gray-100 bg-white p-1 shadow-lg dark:border-gray-800 dark:bg-black">
+                      <Link
+                        href="/post/create"
+                        className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-900"
+                      >
+                        <PenLine className="h-4 w-4" />
+                        写文章
+                      </Link>
+                      <Link
+                        href="/post/my"
+                        className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-900"
+                      >
+                        <FileText className="h-4 w-4" />
+                        我的文章
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={handleLogout}
+                        className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-900"
+                      >
+                        退出登录
+                      </button>
+                    </div>
+                  ) : null}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="text-sm font-medium text-gray-500 hover:text-purple-600 dark:text-gray-400"
+                >
+                  退出
+                </button>
               </div>
             ) : (
               <Link
@@ -138,7 +208,8 @@ export default function Navbar() {
             {/* User Status Section (Mobile) */}
             <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
               {loginUser ? (
-                <div className="flex items-center gap-3">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
                   {loginUser.userAvatar ? (
                     <img src={loginUser.userAvatar} alt={loginUser.userName} className="h-8 w-8 rounded-full" />
                   ) : (
@@ -147,6 +218,36 @@ export default function Navbar() {
                     </div>
                   )}
                   <span className="text-sm font-medium text-gray-900 dark:text-white">{loginUser.userName}</span>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2">
+                    <Link
+                      href="/post/create"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-orange-500 px-3 py-2 text-sm font-semibold text-white hover:bg-orange-600"
+                    >
+                      <Plus className="h-4 w-4" />
+                      创作
+                    </Link>
+                    <Link
+                      href="/post/my"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 dark:border-gray-800 dark:bg-black dark:text-gray-200 dark:hover:bg-gray-900"
+                    >
+                      我的文章
+                    </Link>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      void handleLogout();
+                    }}
+                    className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-800 dark:bg-black dark:text-gray-200 dark:hover:bg-gray-900"
+                  >
+                    退出登录
+                  </button>
                 </div>
               ) : (
                 <Link

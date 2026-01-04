@@ -2,7 +2,10 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Github, ExternalLink, ArrowRight, Terminal, Clock, Code2, Database, LayoutTemplate } from "lucide-react";
+import { 
+  Github, ExternalLink, ArrowRight, Terminal, Clock, Code2, Database, LayoutTemplate,
+  Cpu, Globe, Zap, Shield, Bot, Workflow 
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import Marquee from "@/components/magicui/marquee";
 
@@ -14,16 +17,8 @@ const FEATURED_PROJECT = {
   image: "bg-gradient-to-br from-blue-900 to-slate-900" // 这里可以用真实图片 URL 替换
 };
 
-// 模拟最近提交数据
-const CODING_STATS = [
-  { day: "Mon", count: 12 },
-  { day: "Tue", count: 8 },
-  { day: "Wed", count: 15 },
-  { day: "Thu", count: 22 },
-  { day: "Fri", count: 5 },
-  { day: "Sat", count: 30 },
-  { day: "Sun", count: 10 },
-];
+// 模拟最近代码量数值 (纯数据)
+const MOCK_COUNTS = [2450, 3200, 1890, 4100, 1200, 5600, 1800];
 
 // --- 辅助组件：卡片容器 ---
 const BentoCard = ({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) => (
@@ -42,16 +37,41 @@ const BentoCard = ({ children, className, delay = 0 }: { children: React.ReactNo
 );
 
 export function SectionBento() {
-  return (
-    <section className="py-24 px-4 md:px-8 bg-gray-50 dark:bg-black text-gray-900 dark:text-white relative transition-colors duration-300">
-      {/* 标题 */}
-      <div className="max-w-7xl mx-auto mb-12">
-        <h2 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 to-gray-500 dark:from-white dark:to-gray-500 bg-clip-text text-transparent">
-          Selected Works & Stats
-        </h2>
-      </div>
+  const [codingStats, setCodingStats] = React.useState(
+    MOCK_COUNTS.map(count => ({ count, date: "", day: "" })) // Initial safe state
+  );
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[180px]">
+  React.useEffect(() => {
+    const today = new Date();
+    const newStats = MOCK_COUNTS.map((count, index) => {
+      // 倒推日期：最后一天(index=6)是今天
+      const targetDate = new Date(today);
+      targetDate.setDate(today.getDate() - (6 - index));
+      
+      return {
+        count,
+        date: targetDate.getDate().toString().padStart(2, '0'), // 补零: 01, 02...
+        day: targetDate.toLocaleDateString('en-US', { weekday: 'short' }),
+      };
+    });
+    setCodingStats(newStats);
+  }, []);
+
+  return (
+    <section className="py-24 px-4 md:px-8 relative overflow-hidden bg-gradient-to-b from-white via-gray-50 to-gray-50 dark:from-black dark:via-black/60 dark:to-black text-gray-900 dark:text-white transition-colors duration-300">
+      {/* 顶部/底部过渡：让分区衔接更自然 */}
+      <div className="pointer-events-none absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-white to-transparent dark:from-black z-0" />
+      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-gray-50 to-transparent dark:from-black z-0" />
+
+      <div className="relative z-10">
+        {/* 标题 */}
+        <div className="max-w-7xl mx-auto mb-12">
+          <h2 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 to-gray-500 dark:from-white dark:to-gray-500 bg-clip-text text-transparent">
+            Selected Works & Stats
+          </h2>
+        </div>
+
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[180px]">
         
         {/* 1. 核心项目展示 (Featured Project) - 2x2 */}
         <BentoCard className="md:col-span-2 md:row-span-2 relative group cursor-pointer border-blue-500/20 bg-gray-900 text-white">
@@ -85,50 +105,97 @@ export function SectionBento() {
         </BentoCard>
 
         {/* 2. 技术栈 (The Toolkit) - 1x1 */}
-        <BentoCard delay={0.1} className="flex flex-col justify-center items-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-grid-black/[0.03] dark:bg-grid-white/[0.03]" />
-          <div className="text-xs text-gray-500 font-bold uppercase tracking-wider mb-4 z-10">Toolkit</div>
+        <BentoCard delay={0.1} className="flex flex-col justify-center items-center relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-[#0a0a0a] dark:to-[#000000]">
+          {/* Cyberpunk Grid Background */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+          
+          <div className="text-xs font-bold uppercase tracking-wider mb-6 z-10 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]">
+            Cyber Toolkit
+          </div>
           
           <Marquee className="[--duration:20s] w-full" pauseOnHover>
-            {[Code2, Database, LayoutTemplate, Terminal, Clock].map((Icon, i) => (
-              <div key={i} className="mx-4 p-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/30 transition-colors">
-                <Icon size={24} className="text-gray-400 dark:text-gray-300" />
+            {[
+              { icon: Code2, color: "text-cyan-400", border: "border-cyan-500/30", glow: "shadow-[0_0_15px_rgba(34,211,238,0.3)]" },
+              { icon: Database, color: "text-magenta-400 text-fuchsia-400", border: "border-fuchsia-500/30", glow: "shadow-[0_0_15px_rgba(232,121,249,0.3)]" },
+              { icon: LayoutTemplate, color: "text-yellow-400", border: "border-yellow-500/30", glow: "shadow-[0_0_15px_rgba(250,204,21,0.3)]" },
+              { icon: Terminal, color: "text-green-400", border: "border-green-500/30", glow: "shadow-[0_0_15px_rgba(74,222,128,0.3)]" },
+              { icon: Clock, color: "text-blue-400", border: "border-blue-500/30", glow: "shadow-[0_0_15px_rgba(96,165,250,0.3)]" },
+              { icon: Cpu, color: "text-orange-400", border: "border-orange-500/30", glow: "shadow-[0_0_15px_rgba(251,146,60,0.3)]" },
+              { icon: Zap, color: "text-yellow-300", border: "border-yellow-300/30", glow: "shadow-[0_0_15px_rgba(253,224,71,0.3)]" },
+              { icon: Shield, color: "text-emerald-400", border: "border-emerald-500/30", glow: "shadow-[0_0_15px_rgba(52,211,153,0.3)]" },
+              { icon: Bot, color: "text-rose-400", border: "border-rose-500/30", glow: "shadow-[0_0_15px_rgba(251,113,133,0.3)]" },
+              { icon: Globe, color: "text-indigo-400", border: "border-indigo-500/30", glow: "shadow-[0_0_15px_rgba(129,140,248,0.3)]" },
+              { icon: Workflow, color: "text-violet-400", border: "border-violet-500/30", glow: "shadow-[0_0_15px_rgba(167,139,250,0.3)]" },
+            ].map((item, i) => (
+              <div 
+                key={i} 
+                className={`mx-4 p-3.5 rounded-xl bg-black/40 backdrop-blur-sm border ${item.border} ${item.glow} hover:scale-110 hover:bg-white/10 transition-all duration-300 group/icon`}
+              >
+                <item.icon size={24} className={`${item.color} drop-shadow-[0_0_8px_currentColor] group-hover/icon:animate-pulse`} />
               </div>
             ))}
           </Marquee>
           
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-white dark:from-black to-transparent z-10" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white dark:from-black to-transparent z-10" />
+          {/* Side Fade with color hint */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-gray-50 dark:from-black to-transparent z-10" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-gray-50 dark:from-black to-transparent z-10" />
         </BentoCard>
 
-        {/* 3. 最近修仙 (Coding Stats) - 1x2 (Vertical on grid) - Keeping structure as requested, adjusted for grid flow */}
-        <BentoCard delay={0.2} className="md:col-span-1 md:row-span-1 flex flex-col justify-between">
-           <div className="flex items-center justify-between mb-2">
-             <div className="text-xs text-gray-500 font-bold uppercase tracking-wider">Activity</div>
-             <div className="text-xs text-green-500 dark:text-green-400">Online</div>
+        {/* 3. 最近修仙 (Coding Stats) */}
+        <BentoCard delay={0.2} className="md:col-span-1 md:row-span-1 flex flex-col p-6 min-h-[180px]">
+           <div className="flex items-center justify-between mb-4">
+             <div className="text-xs text-gray-500 font-bold uppercase tracking-wider">7-Day Lines</div>
+             <div className="text-xs text-blue-500 dark:text-blue-400 font-mono font-bold">+20.3k</div>
            </div>
            
-           <div className="flex items-end justify-between gap-1 h-24">
-             {CODING_STATS.map((stat, i) => (
-               <div key={i} className="flex flex-col items-center gap-2 flex-1 group/bar">
-                  <div 
-                    className="w-full bg-green-500/10 dark:bg-green-500/20 rounded-sm relative overflow-hidden group-hover/bar:bg-green-500/20 dark:group-hover/bar:bg-green-500/40 transition-colors"
-                    style={{ height: `${(stat.count / 30) * 100}%` }}
-                  >
-                     {/* 模拟进度条动画 */}
-                     <motion.div 
-                       initial={{ height: 0 }}
-                       whileInView={{ height: '100%' }}
-                       transition={{ duration: 1, delay: 0.2 + (i * 0.1) }}
-                       className="absolute bottom-0 left-0 w-full bg-green-500"
-                     />
+           {/* 图表区域：强制撑开高度 */}
+           <div className="flex-1 w-full flex items-end justify-between gap-2 min-h-[80px] relative">
+             {/* 背景虚线网格 */}
+             <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20">
+               <div className="w-full border-t border-dashed border-gray-400"></div>
+               <div className="w-full border-t border-dashed border-gray-400"></div>
+               <div className="w-full border-t border-dashed border-gray-400"></div>
+             </div>
+
+             {codingStats.map((stat, i) => {
+               // 找出最大值，给它加特殊光效
+               const isMax = stat.count === Math.max(...codingStats.map(s => s.count));
+               
+               return (
+               <div key={i} className="relative flex-1 h-full flex items-end group/bar z-10">
+                  {/* Tooltip */}
+                  <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover/bar:opacity-100 transition-opacity whitespace-nowrap z-20 pointer-events-none shadow-xl border border-gray-700">
+                    <span className="font-bold">{stat.count}</span> <span className="text-gray-400">lines</span>
+                  </div>
+                  
+                  {/* 柱子背景槽 (玻璃质感) */}
+                  <div className="absolute bottom-0 w-full h-full bg-gray-200/50 dark:bg-white/5 rounded-t-sm" />
+
+                  {/* 实际柱子 (渐变 + 发光) */}
+                  <motion.div 
+                    initial={{ height: 0 }}
+                    whileInView={{ height: `${(stat.count / 6000) * 100}%` }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.2 + (i * 0.1), ease: "easeOut" }}
+                    className={cn(
+                      "w-full rounded-t-sm relative z-10 transition-all duration-300",
+                      isMax 
+                        ? "bg-gradient-to-t from-blue-600 to-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.4)]" 
+                        : "bg-gradient-to-t from-blue-500 to-blue-400 group-hover/bar:from-blue-400 group-hover/bar:to-blue-300"
+                    )}
+                  />
+                  
+                  {/* 底部日期数字 */}
+                  <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] text-gray-400 font-mono font-medium">
+                    {stat.date}
                   </div>
                </div>
-             ))}
+               );
+             })}
            </div>
-           <div className="text-xs text-gray-400 text-right mt-2">
-             Code never sleeps
-           </div>
+           
+           {/* 底部留一点空间给星期几标签 */}
+           <div className="h-2"></div>
         </BentoCard>
         
         {/* 4. 最新技术笔记 (Latest Thought) - 1x2 (Vertical) */}
@@ -179,7 +246,9 @@ export function SectionBento() {
            </div>
         </BentoCard>
 
+        </div>
       </div>
     </section>
   );
 }
+

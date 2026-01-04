@@ -94,6 +94,8 @@ export default function Home() {
       */}
       <SectionCodeCraft />
       <SectionBento />
+      
+      {/* 第二分区 - Note 分区：精选分享（技术栈/项目）+ 学习笔记/博客 */}
       <SectionKnowledge />
 
       {/* 
