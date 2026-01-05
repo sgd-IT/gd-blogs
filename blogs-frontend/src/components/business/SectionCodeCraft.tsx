@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Code2, Bot, Terminal, Cpu, Scroll, Plus, Minus } from "lucide-react";
-import Marquee from "@/components/magicui/marquee";
+import Marquee from "@/components/ui/marquee";
 import { cn } from "@/lib/utils";
 
 const skills = [

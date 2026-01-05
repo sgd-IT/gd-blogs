@@ -4,12 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2ad046f9-cfd0-459d-8283-d5ffd70d4720" name="更改" comment="后端：用户的登录注册，文章的CRUD&#10;前端：添加了导航栏右侧的登录状态">
+    <list default="true" id="2ad046f9-cfd0-459d-8283-d5ffd70d4720" name="更改" comment="后端：添加了用户管理&#10;前端：修改了第二分区的note区，和修改了卡片的展示效果">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/constant/UserConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/constant/UserConstant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/model/entity/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/model/entity/Post.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/service/impl/PostServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/service/impl/PostServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/resources/sql/create_table.sql" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/resources/sql/create_table.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/next.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/next.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/app/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/app/post/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/app/post/create/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/app/post/my/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/app/post/my/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/components/Navbar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/OrbitingIntroduction.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/SkillPanel.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/magicui/marquee.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/section-bento.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/section-code-craft.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/section-knowledge.tsx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,12 +73,13 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
     &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Administrator\\Desktop\\gd-blogs\\blogs-frontend\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="npm.Next.js: 服务器端">
+  <component name="RunManager" selected="npm.dev">
     <configuration name="Next.js: 调试客户端" type="JavascriptDebugType" uri="http://localhost:3000/">
       <method v="2" />
     </configuration>
@@ -78,6 +93,21 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/blogs-frontend/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.dev" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -97,6 +127,9 @@
       <workItem from="1767425013452" duration="644000" />
       <workItem from="1767426765950" duration="8000" />
       <workItem from="1767516974635" duration="29000" />
+      <workItem from="1767520866925" duration="60000" />
+      <workItem from="1767581157081" duration="1162000" />
+      <workItem from="1767597631788" duration="5143000" />
     </task>
     <task id="LOCAL-00001" summary="后端：用户的登录注册，文章的CRUD&#10;前端：添加了导航栏右侧的登录状态">
       <option name="closed" value="true" />
@@ -106,7 +139,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767425631785</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="后端：添加了用户管理&#10;前端：修改了第二分区的note区，和修改了卡片的展示效果">
+      <option name="closed" value="true" />
+      <created>1767520920775</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1767520920775</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -137,6 +178,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="后端：用户的登录注册，文章的CRUD&#10;前端：添加了导航栏右侧的登录状态" />
-    <option name="LAST_COMMIT_MESSAGE" value="后端：用户的登录注册，文章的CRUD&#10;前端：添加了导航栏右侧的登录状态" />
+    <MESSAGE value="后端：添加了用户管理&#10;前端：修改了第二分区的note区，和修改了卡片的展示效果" />
+    <option name="LAST_COMMIT_MESSAGE" value="后端：添加了用户管理&#10;前端：修改了第二分区的note区，和修改了卡片的展示效果" />
   </component>
 </project>

@@ -19,6 +19,7 @@ import com.gdblogs.model.vo.PostVO;
 import com.gdblogs.model.vo.LoginUserVO;
 import com.gdblogs.service.PostService;
 import com.gdblogs.service.UserService;
+import com.gdblogs.utils.HtmlUtils;
 import com.gdblogs.utils.SqlUtils;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -56,8 +57,14 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         if (StrUtil.isNotBlank(title) && title.length() > 80) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "标题过长");
         }
-        if (StrUtil.isNotBlank(content) && content.length() > 8192) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR, "内容过长");
+        if (StrUtil.isNotBlank(content)) {
+            // 清洗 HTML，防止 XSS 攻击
+            String cleanContent = HtmlUtils.cleanHtml(content);
+            post.setContent(cleanContent);
+            // 校验长度（基于清洗后的内容）
+            if (cleanContent.length() > 50000) {
+                throw new BusinessException(ErrorCode.PARAMS_ERROR, "内容过长");
+            }
         }
     }
 

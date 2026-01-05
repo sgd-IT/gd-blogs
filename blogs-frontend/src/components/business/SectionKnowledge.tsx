@@ -94,64 +94,82 @@ function PickCard({
   item: PickItem;
   index: number;
 }) {
-  const MotionTag: any = item.url ? motion.a : motion.div;
+  const className = [
+    "group block p-4 rounded-2xl bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-800 hover:border-blue-200 dark:hover:border-blue-900 transition-all",
+    item.url ? "cursor-pointer" : "cursor-default",
+  ].join(" ");
+
+  const cardBody = (
+    <div className="flex justify-between items-start gap-4">
+      <div className="min-w-0">
+        <div className="flex items-center gap-2 mb-2">
+          {item.pinned && (
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-600 text-white">
+              置顶
+            </span>
+          )}
+          <span className="text-xs text-gray-500">{item.date}</span>
+        </div>
+
+        <h4 className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors line-clamp-2">
+          {item.title}
+        </h4>
+
+        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 line-clamp-2">
+          {item.reason}
+        </p>
+
+        <div className="flex flex-wrap items-center gap-2 mt-3 text-xs text-gray-500">
+          {item.tags.map((tag) => (
+            <span
+              key={tag}
+              className="px-1.5 py-0.5 rounded bg-gray-200 dark:bg-gray-800 text-[10px]"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <ArrowUpRight
+        size={16}
+        className={[
+          "text-gray-400 transition-all",
+          item.url
+            ? "group-hover:text-blue-500 group-hover:translate-x-1 group-hover:-translate-y-1"
+            : "opacity-40",
+        ].join(" ")}
+      />
+    </div>
+  );
+
+  if (item.url) {
+    return (
+      <motion.a
+        href={item.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        initial={{ opacity: 0, x: -20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: index * 0.08 }}
+        className={className}
+      >
+        {cardBody}
+      </motion.a>
+    );
+  }
 
   return (
-    <MotionTag
-      href={item.url}
-      target={item.url ? "_blank" : undefined}
-      rel={item.url ? "noopener noreferrer" : undefined}
+    <motion.div
       initial={{ opacity: 0, x: -20 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.08 }}
-      className={[
-        "group block p-4 rounded-2xl bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-800 hover:border-blue-200 dark:hover:border-blue-900 transition-all",
-        item.url ? "cursor-pointer" : "cursor-default",
-      ].join(" ")}
+      className={className}
     >
-      <div className="flex justify-between items-start gap-4">
-        <div className="min-w-0">
-          <div className="flex items-center gap-2 mb-2">
-            {item.pinned && (
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-600 text-white">
-                置顶
-              </span>
-            )}
-            <span className="text-xs text-gray-500">{item.date}</span>
-          </div>
-
-          <h4 className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors line-clamp-2">
-            {item.title}
-          </h4>
-
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 line-clamp-2">
-            {item.reason}
-          </p>
-
-          <div className="flex flex-wrap items-center gap-2 mt-3 text-xs text-gray-500">
-            {item.tags.map((tag) => (
-              <span
-                key={tag}
-                className="px-1.5 py-0.5 rounded bg-gray-200 dark:bg-gray-800 text-[10px]"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <ArrowUpRight
-          size={16}
-          className={[
-            "text-gray-400 transition-all",
-            item.url
-              ? "group-hover:text-blue-500 group-hover:translate-x-1 group-hover:-translate-y-1"
-              : "opacity-40",
-          ].join(" ")}
-        />
-      </div>
-    </MotionTag>
+      {cardBody}
+    </motion.div>
   );
 }
 

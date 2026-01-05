@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import OrbitingIntroduction from "@/components/OrbitingIntroduction";
-import { SectionCodeCraft } from "@/components/section-code-craft";
-import { SectionBento } from "@/components/section-bento";
-import { SectionKnowledge } from "@/components/section-knowledge";
+import OrbitingIntroduction from "@/components/business/OrbitingIntroduction";
+import { SectionCodeCraft } from "@/components/business/SectionCodeCraft";
+import { SectionBento } from "@/components/business/SectionBento";
+import { SectionKnowledge } from "@/components/business/SectionKnowledge";
 import { ArrowRight, Code2, Coffee, Activity, Camera, Github, Terminal } from "lucide-react";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";

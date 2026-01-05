@@ -7,7 +7,7 @@ import {
   Cpu, Globe, Zap, Shield, Bot, Workflow 
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import Marquee from "@/components/magicui/marquee";
+import Marquee from "@/components/ui/marquee";
 
 // 模拟项目数据
 const FEATURED_PROJECT = {
@@ -240,7 +240,7 @@ export function SectionBento() {
            </div>
            <div className="p-4 text-gray-300 leading-relaxed opacity-80">
              <span className="text-purple-400">while</span> true; <span className="text-purple-400">do</span><br/>
-             &nbsp;&nbsp;echo <span className="text-green-400">"Keep coding"</span><br/>
+             &nbsp;&nbsp;echo <span className="text-green-400">&quot;Keep coding&quot;</span><br/>
              &nbsp;&nbsp;sleep 1<br/>
              <span className="text-purple-400">done</span>
            </div>

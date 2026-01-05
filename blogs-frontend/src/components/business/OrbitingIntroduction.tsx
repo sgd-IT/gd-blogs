@@ -220,7 +220,7 @@ const OrbitingIntroduction = () => {
                 <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-300/50 to-transparent dark:via-gray-700/50 mb-4" />
                 
                 <h3 className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 text-left">
-                    I'm a
+                    I&apos;m a
                 </h3>
                 <ul className="space-y-1 text-sm font-medium text-gray-600 dark:text-gray-400 text-left">
                     <li>Influencer (&gt;286K followers)</li>
