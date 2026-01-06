@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { X, Upload } from "lucide-react";
-import { fetchCategories } from "@/services/category";
-import { uploadImage } from "@/services/upload";
-import type { Category, PublishSettings as PublishSettingsType } from "@/types";
+import { useState } from "react";
+import { X } from "lucide-react";
+import type { PublishSettings as PublishSettingsType } from "@/types";
+import PublishSettingsPanel from "./PublishSettingsPanel";
 
 interface PublishSettingsProps {
   initialSettings?: PublishSettingsType;
@@ -19,54 +18,17 @@ export default function PublishSettings({
   onConfirm,
   onCancel,
 }: PublishSettingsProps) {
-  const [categoryId, setCategoryId] = useState<number | undefined>(
-    initialSettings?.categoryId
-  );
-  const [coverImage, setCoverImage] = useState(
-    initialSettings?.coverImage || ""
-  );
-  const [summary, setSummary] = useState(
-    initialSettings?.summary || autoSummary
-  );
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [uploading, setUploading] = useState(false);
-
-  useEffect(() => {
-    const loadCategories = async () => {
-      const data = await fetchCategories();
-      setCategories(data);
-    };
-    void loadCategories();
-  }, []);
-
-  const handleCoverUpload = () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "image/*";
-
-    input.onchange = async (e) => {
-      const file = (e.target as HTMLInputElement).files?.[0];
-      if (!file) return;
-
-      setUploading(true);
-      try {
-        const url = await uploadImage(file);
-        setCoverImage(url);
-      } catch (error) {
-        alert("封面上传失败");
-      } finally {
-        setUploading(false);
-      }
-    };
-
-    input.click();
-  };
+  const [value, setValue] = useState<PublishSettingsType>({
+    categoryId: initialSettings?.categoryId,
+    coverImage: initialSettings?.coverImage,
+    summary: initialSettings?.summary ?? "",
+  });
 
   const handleConfirm = () => {
     onConfirm({
-      categoryId,
-      coverImage: coverImage || undefined,
-      summary: summary.trim() || autoSummary,
+      categoryId: value.categoryId,
+      coverImage: value.coverImage || undefined,
+      summary: value.summary?.trim() || autoSummary,
     });
   };
 
@@ -88,82 +50,8 @@ export default function PublishSettings({
         </div>
 
         {/* 内容 */}
-        <div className="p-6 space-y-5">
-          {/* 分类选择 */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              文章分类
-            </label>
-            <select
-              value={categoryId || ""}
-              onChange={(e) =>
-                setCategoryId(e.target.value ? Number(e.target.value) : undefined)
-              }
-              className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-purple-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-            >
-              <option value="">请选择分类</option>
-              {categories.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* 封面图片 */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              封面图片
-            </label>
-            <div className="flex items-center gap-3">
-              {coverImage ? (
-                <div className="relative w-40 h-24 rounded-lg overflow-hidden border border-gray-300 dark:border-gray-700">
-                  <img
-                    src={coverImage}
-                    alt="封面"
-                    className="w-full h-full object-cover"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setCoverImage("")}
-                    className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded hover:bg-red-600"
-                  >
-                    <X className="h-3 w-3" />
-                  </button>
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleCoverUpload}
-                  disabled={uploading}
-                  className="flex items-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 disabled:opacity-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
-                >
-                  <Upload className="h-4 w-4" />
-                  {uploading ? "上传中..." : "上传封面"}
-                </button>
-              )}
-            </div>
-            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-              建议尺寸：1200x630，最大 5MB
-            </p>
-          </div>
-
-          {/* 文章摘要 */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              文章摘要
-            </label>
-            <textarea
-              value={summary}
-              onChange={(e) => setSummary(e.target.value)}
-              maxLength={500}
-              className="w-full min-h-[100px] rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-purple-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-              placeholder="输入文章摘要（不填将自动提取前 200 字）"
-            />
-            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-              {summary.length}/500 字
-            </p>
-          </div>
+        <div className="p-6">
+          <PublishSettingsPanel value={value} autoSummary={autoSummary} onChange={setValue} />
         </div>
 
         {/* 底部按钮 */}

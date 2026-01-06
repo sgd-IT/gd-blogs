@@ -8,7 +8,7 @@ export default function EditPage() {
   const postId = params.id as string;
 
   return (
-    <main className="min-h-screen bg-white dark:bg-black pt-16 pb-16">
+    <main className="min-h-screen">
       <TiptapEditor mode="edit" postId={postId} />
     </main>
   );

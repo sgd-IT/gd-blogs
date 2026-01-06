@@ -49,6 +49,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         String title = post.getTitle();
         String content = post.getContent();
         String tags = post.getTags();
+        boolean contentLooksLikeHtml = StrUtil.isNotBlank(content) && content.matches("(?s).*<\\s*[a-zA-Z][^>]*>.*");
         // 创建时，参数不能为空
         if (add) {
             ThrowUtils.throwIf(StrUtil.hasBlank(title, content, tags), ErrorCode.PARAMS_ERROR);
@@ -58,11 +59,11 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "标题过长");
         }
         if (StrUtil.isNotBlank(content)) {
-            // 清洗 HTML，防止 XSS 攻击
-            String cleanContent = HtmlUtils.cleanHtml(content);
-            post.setContent(cleanContent);
-            // 校验长度（基于清洗后的内容）
-            if (cleanContent.length() > 50000) {
+            // 仅当内容看起来是 HTML 时才清洗（Markdown 不应该走 HTML 白名单清洗）
+            String storedContent = contentLooksLikeHtml ? HtmlUtils.cleanHtml(content) : content;
+            post.setContent(storedContent);
+            // 校验长度
+            if (storedContent.length() > 50000) {
                 throw new BusinessException(ErrorCode.PARAMS_ERROR, "内容过长");
             }
         }
@@ -88,6 +89,9 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         String content = postQueryRequest.getContent();
         List<String> tagList = postQueryRequest.getTags();
         Long userId = postQueryRequest.getUserId();
+        Long categoryId = postQueryRequest.getCategoryId();
+        Integer isFeatured = postQueryRequest.getIsFeatured();
+        Integer isHome = postQueryRequest.getIsHome();
         
         // 拼接查询条件
         if (StrUtil.isNotBlank(searchText)) {
@@ -102,6 +106,9 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         }
         queryWrapper.eq(ObjectUtil.isNotNull(id), "id", id);
         queryWrapper.eq(ObjectUtil.isNotNull(userId), "userId", userId);
+        queryWrapper.eq(ObjectUtil.isNotNull(categoryId), "categoryId", categoryId);
+        queryWrapper.eq(ObjectUtil.isNotNull(isFeatured), "isFeatured", isFeatured);
+        queryWrapper.eq(ObjectUtil.isNotNull(isHome), "isHome", isHome);
         queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_ASC),
                 sortField);
         return queryWrapper;

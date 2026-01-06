@@ -4,26 +4,37 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2ad046f9-cfd0-459d-8283-d5ffd70d4720" name="更改" comment="后端：添加了用户管理&#10;前端：修改了第二分区的note区，和修改了卡片的展示效果">
+    <list default="true" id="2ad046f9-cfd0-459d-8283-d5ffd70d4720" name="更改" comment="前端 (Frontend)&#10;编辑器核心: 集成 Tiptap 富文本编辑器，实现文章创建与编辑页面。&#10;高级编辑: 新增表格、文字颜色/背景色、Markdown 源码模式切换。&#10;辅助功能: 实现左侧自动目录 (TOC)、草稿自动保存与恢复。&#10;发文流程: 新增发文设置弹窗（分类、封面、摘要），对接图片上传。&#10;后端 (Backend)&#10;文章模块: 扩展 Post 实体，新增分类、封面、摘要字段。&#10;分类模块: 新增 Category 实体、Mapper、Service 及 Controller。&#10;文件服务: 新增 FileController 实现图片本地上传，配置静态资源映射。&#10;安全防护: 新增 HtmlUtils 工具类，实现 HTML 内容 XSS 过滤。">
+      <change beforePath="$PROJECT_DIR$/.idea/gd-blogs.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gd-blogs.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/config/WebConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/controller/FileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/controller/FileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/mapper/CategoryMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/mapper/CategoryMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/mapper/PostMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/mapper/PostMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/model/dto/post/PostAddRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/model/dto/post/PostAddRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/model/dto/post/PostQueryRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/model/dto/post/PostQueryRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/model/dto/post/PostUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/model/dto/post/PostUpdateRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/model/entity/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/model/entity/Post.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/model/vo/PostVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/model/vo/PostVO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/service/impl/PostServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/service/impl/PostServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/resources/sql/create_table.sql" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/resources/sql/create_table.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-frontend/next.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/next.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blogs-frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blogs-frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blogs-frontend/src/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/app/globals.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/app/post/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/app/post/[id]/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blogs-frontend/src/app/post/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/app/post/create/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/app/post/my/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/app/post/my/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/app/post/edit/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/app/post/edit/[id]/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/components/Navbar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/OrbitingIntroduction.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/SkillPanel.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/magicui/marquee.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/section-bento.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/section-code-craft.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/section-knowledge.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/business/BlogsPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/components/business/BlogsPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/business/SectionKnowledge.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/components/business/SectionKnowledge.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/editor/EditorToolbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/components/editor/EditorToolbar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/editor/MarkdownPreview.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/components/editor/MarkdownPreview.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/editor/PublishSettings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/components/editor/PublishSettings.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/editor/TiptapEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/components/editor/TiptapEditor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/editor/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/components/editor/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/lib/html.ts" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/lib/html.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/services/category.ts" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/services/category.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/types/post.ts" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/types/post.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +53,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/sgd-IT/gd-blogs.git&quot;,
-    &quot;accountId&quot;: &quot;94b2207b-8d8f-4570-8c64-d961ab18cda2&quot;
+    &quot;accountId&quot;: &quot;acae515f-c019-4d44-94b9-fcd74f14aac9&quot;
   }
 }</component>
   <component name="ProblemsViewState">
@@ -74,6 +85,9 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Administrator\\Desktop\\gd-blogs\\blogs-frontend\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
@@ -112,7 +126,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-WS-252.27397.92" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.27397.103" />
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-IU-252.27397.103" />
       </set>
     </attachedChunks>
   </component>
@@ -129,7 +144,8 @@
       <workItem from="1767516974635" duration="29000" />
       <workItem from="1767520866925" duration="60000" />
       <workItem from="1767581157081" duration="1162000" />
-      <workItem from="1767597631788" duration="5143000" />
+      <workItem from="1767597631788" duration="5470000" />
+      <workItem from="1767667446089" duration="86000" />
     </task>
     <task id="LOCAL-00001" summary="后端：用户的登录注册，文章的CRUD&#10;前端：添加了导航栏右侧的登录状态">
       <option name="closed" value="true" />
@@ -147,7 +163,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767520920775</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="前端 (Frontend)&#10;编辑器核心: 集成 Tiptap 富文本编辑器，实现文章创建与编辑页面。&#10;高级编辑: 新增表格、文字颜色/背景色、Markdown 源码模式切换。&#10;辅助功能: 实现左侧自动目录 (TOC)、草稿自动保存与恢复。&#10;发文流程: 新增发文设置弹窗（分类、封面、摘要），对接图片上传。&#10;后端 (Backend)&#10;文章模块: 扩展 Post 实体，新增分类、封面、摘要字段。&#10;分类模块: 新增 Category 实体、Mapper、Service 及 Controller。&#10;文件服务: 新增 FileController 实现图片本地上传，配置静态资源映射。&#10;安全防护: 新增 HtmlUtils 工具类，实现 HTML 内容 XSS 过滤。">
+      <option name="closed" value="true" />
+      <created>1767606555606</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1767606555606</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -164,7 +188,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/master" />
+                        <option value="master" />
                       </list>
                     </value>
                   </entry>
@@ -179,6 +203,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="后端：用户的登录注册，文章的CRUD&#10;前端：添加了导航栏右侧的登录状态" />
     <MESSAGE value="后端：添加了用户管理&#10;前端：修改了第二分区的note区，和修改了卡片的展示效果" />
-    <option name="LAST_COMMIT_MESSAGE" value="后端：添加了用户管理&#10;前端：修改了第二分区的note区，和修改了卡片的展示效果" />
+    <MESSAGE value="前端 (Frontend)&#10;编辑器核心: 集成 Tiptap 富文本编辑器，实现文章创建与编辑页面。&#10;高级编辑: 新增表格、文字颜色/背景色、Markdown 源码模式切换。&#10;辅助功能: 实现左侧自动目录 (TOC)、草稿自动保存与恢复。&#10;发文流程: 新增发文设置弹窗（分类、封面、摘要），对接图片上传。&#10;后端 (Backend)&#10;文章模块: 扩展 Post 实体，新增分类、封面、摘要字段。&#10;分类模块: 新增 Category 实体、Mapper、Service 及 Controller。&#10;文件服务: 新增 FileController 实现图片本地上传，配置静态资源映射。&#10;安全防护: 新增 HtmlUtils 工具类，实现 HTML 内容 XSS 过滤。" />
+    <option name="LAST_COMMIT_MESSAGE" value="前端 (Frontend)&#10;编辑器核心: 集成 Tiptap 富文本编辑器，实现文章创建与编辑页面。&#10;高级编辑: 新增表格、文字颜色/背景色、Markdown 源码模式切换。&#10;辅助功能: 实现左侧自动目录 (TOC)、草稿自动保存与恢复。&#10;发文流程: 新增发文设置弹窗（分类、封面、摘要），对接图片上传。&#10;后端 (Backend)&#10;文章模块: 扩展 Post 实体，新增分类、封面、摘要字段。&#10;分类模块: 新增 Category 实体、Mapper、Service 及 Controller。&#10;文件服务: 新增 FileController 实现图片本地上传，配置静态资源映射。&#10;安全防护: 新增 HtmlUtils 工具类，实现 HTML 内容 XSS 过滤。" />
   </component>
 </project>

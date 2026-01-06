@@ -15,6 +15,9 @@ export interface PostVO {
   id: number;
   title: string;
   content: string;
+  categoryId?: number;
+  coverImage?: string;
+  summary?: string;
   createTime?: string;
   updateTime?: string;
   tagList?: string[];

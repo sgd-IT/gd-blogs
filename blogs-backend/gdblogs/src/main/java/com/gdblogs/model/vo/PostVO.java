@@ -30,6 +30,21 @@ public class PostVO implements Serializable {
     private String content;
 
     /**
+     * 分类 id
+     */
+    private Long categoryId;
+
+    /**
+     * 封面图片
+     */
+    private String coverImage;
+
+    /**
+     * 文章摘要
+     */
+    private String summary;
+
+    /**
      * 点赞数
      */
     private Integer thumbNum;
@@ -63,6 +78,21 @@ public class PostVO implements Serializable {
      * 创建人信息
      */
     private LoginUserVO user;
+
+    /**
+     * 是否精选
+     */
+    private Integer isFeatured;
+
+    /**
+     * 外部链接
+     */
+    private String externalLink;
+
+    /**
+     * 是否展示在主页
+     */
+    private Integer isHome;
 
     /**
      * 包装类转对象

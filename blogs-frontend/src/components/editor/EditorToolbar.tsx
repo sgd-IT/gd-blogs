@@ -106,7 +106,7 @@ export default function EditorToolbar({ editor, onAddLink, onAddImage, onShowMar
   };
 
   return (
-    <div className="flex items-center gap-1 overflow-x-auto">
+    <div className="flex flex-wrap items-center justify-center gap-1">
       {/* 撤销/重做 */}
       <ToolbarButton
         onClick={() => editor.chain().focus().undo().run()}

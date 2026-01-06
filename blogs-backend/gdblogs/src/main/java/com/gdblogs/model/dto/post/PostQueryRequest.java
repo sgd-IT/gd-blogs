@@ -48,6 +48,21 @@ public class PostQueryRequest extends PageRequest implements Serializable {
      */
     private Long userId;
 
+    /**
+     * 分类 id
+     */
+    private Long categoryId;
+
+    /**
+     * 是否精选
+     */
+    private Integer isFeatured;
+
+    /**
+     * 是否展示在主页
+     */
+    private Integer isHome;
+
     private static final long serialVersionUID = 1L;
 }
 

@@ -24,7 +24,11 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [loginUser, setLoginUser] = useState<LoginUserVO | null>(null);
 
+  // 编辑器页面隐藏全局导航（注意：不能在 hooks 之前提前 return，否则会导致 hooks 数量不一致）
+  const hideOnEditor = pathname.startsWith("/post/create") || pathname.startsWith("/post/edit");
+
   useEffect(() => {
+    if (hideOnEditor) return;
     const fetchLoginUser = async () => {
       try {
         // 走 Next 同源代理，避免跨域 + credentials 导致浏览器直接 Failed to fetch
@@ -43,7 +47,9 @@ export default function Navbar() {
       }
     };
     fetchLoginUser();
-  }, []);
+  }, [hideOnEditor]);
+
+  if (hideOnEditor) return null;
 
   return (
     <nav className="fixed top-0 z-50 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md dark:border-gray-800 dark:bg-black/80">

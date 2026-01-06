@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import type { Editor } from "@tiptap/react";
-import TurndownService from "turndown";
 import { X } from "lucide-react";
 
 interface MarkdownPreviewProps {
@@ -10,26 +9,18 @@ interface MarkdownPreviewProps {
   onClose: () => void;
 }
 
-const turndownService = new TurndownService({
-  headingStyle: "atx",
-  codeBlockStyle: "fenced",
-});
-
 export default function MarkdownPreview({ editor, onClose }: MarkdownPreviewProps) {
   const [markdown, setMarkdown] = useState("");
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    const html = editor.getHTML();
-    const md = turndownService.turndown(html);
-    setMarkdown(md);
+    // 直接从 Tiptap 的 Markdown 扩展导出（更准确）
+    setMarkdown(editor.getMarkdown());
   }, [editor]);
 
   const handleApplyMarkdown = () => {
-    // 将 Markdown 转换回 HTML 并更新编辑器
-    // 注意：Tiptap 不直接支持 Markdown 导入，需要先转 HTML
-    // 这里简化处理，直接设置为文本
-    editor.commands.setContent(markdown);
+    // 将 Markdown 解析为富文本并更新编辑器
+    editor.commands.setContent(markdown, { contentType: "markdown" });
     setIsEditing(false);
   };
 

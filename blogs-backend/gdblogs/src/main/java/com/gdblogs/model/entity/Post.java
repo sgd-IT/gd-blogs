@@ -76,6 +76,21 @@ public class Post implements Serializable {
     @TableLogic
     private Integer isDelete;
 
+    /**
+     * 是否精选
+     */
+    private Integer isFeatured;
+
+    /**
+     * 外部链接
+     */
+    private String externalLink;
+
+    /**
+     * 是否展示在主页
+     */
+    private Integer isHome;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

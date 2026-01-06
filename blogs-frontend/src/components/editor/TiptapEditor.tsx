@@ -7,11 +7,12 @@ import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import LinkExtension from "@tiptap/extension-link";
 import ImageExtension from "@tiptap/extension-image";
+import { Markdown } from "@tiptap/markdown";
 
 import EditorToolbar from "./EditorToolbar";
 import EditorToc from "./EditorToc";
 import MarkdownPreview from "./MarkdownPreview";
-import PublishSettings from "./PublishSettings";
+import PublishSettingsPanel from "./PublishSettingsPanel";
 import {
   CustomHeading,
   CustomTable,
@@ -37,6 +38,8 @@ import type { EditorMode, PostVO, PublishSettings as PublishSettingsType } from 
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8124";
 
+const looksLikeHtml = (text: string) => /<[^>]+>/.test((text ?? "").trim());
+
 // 自动保存间隔（毫秒）
 const AUTO_SAVE_INTERVAL = 30000; // 30秒
 
@@ -57,19 +60,21 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
   const [wordCount, setWordCount] = useState(0);
   const [lastSavedAt, setLastSavedAt] = useState<number | null>(null);
   const [showMarkdown, setShowMarkdown] = useState(false);
-  const [showPublishSettings, setShowPublishSettings] = useState(false);
   const [publishSettings, setPublishSettings] = useState<PublishSettingsType>({});
+  const publishSettingsRef = useRef<HTMLDivElement | null>(null);
+  const [draftMenuOpen, setDraftMenuOpen] = useState(false);
+  const draftMenuRef = useRef<HTMLDivElement | null>(null);
 
   // 侧边栏宽度拖拽
-  const [sidebarWidth, setSidebarWidth] = useState(280);
+  const [sidebarWidth, setSidebarWidth] = useState(360);
   const [isResizing, setIsResizing] = useState(false);
   
   // 处理拖拽逻辑
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isResizing) return;
-      // 限制最小宽度 200px，最大宽度 600px
-      const newWidth = Math.max(200, Math.min(600, e.clientX));
+      // 限制最小宽度 260px，最大宽度 520px（更接近 CSDN）
+      const newWidth = Math.max(260, Math.min(520, e.clientX));
       setSidebarWidth(newWidth);
     };
 
@@ -95,11 +100,51 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
   // 用于防止重复恢复草稿
   const draftRestored = useRef(false);
 
+  // 保存草稿下拉：点击外部/ESC 关闭
+  useEffect(() => {
+    if (!draftMenuOpen) return;
+
+    const onDown = (e: MouseEvent) => {
+      const el = draftMenuRef.current;
+      if (!el) return;
+      if (!el.contains(e.target as Node)) setDraftMenuOpen(false);
+    };
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setDraftMenuOpen(false);
+    };
+
+    window.addEventListener("mousedown", onDown);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("mousedown", onDown);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [draftMenuOpen]);
+
+  const looksLikeMarkdown = (text: string) => {
+    // 轻量级启发式：只要命中一些常见 MD 语法就按 Markdown 解析
+    const t = text.trim();
+    if (!t) return false;
+    return (
+      /^#{1,6}\s/m.test(t) || // 标题
+      /```/.test(t) || // fenced code
+      /^\s*[-*+]\s+/m.test(t) || // 无序列表
+      /^\s*\d+\.\s+/m.test(t) || // 有序列表
+      /\[.+?\]\(.+?\)/.test(t) || // 链接
+      /\*\*[^*]+\*\*/.test(t) || // 加粗
+      /__[^_]+__/.test(t) || // 加粗（另一种）
+      /(^|\n)\s*>\s+/m.test(t) // 引用
+    );
+  };
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
         heading: false, // 禁用默认 heading，使用自定义的
       }),
+      // Markdown：用于导入/导出 Markdown（例如从 Markdown 源码弹窗“应用”）
+      Markdown,
       CustomHeading.configure({
         levels: [1, 2, 3],
       }),
@@ -130,6 +175,24 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
       attributes: {
         class:
           "prose prose-sm sm:prose lg:prose-lg max-w-none focus:outline-none min-h-[400px] px-6 py-4 dark:prose-invert",
+      },
+      handlePaste: (_view, event) => {
+        // 当剪贴板只有纯文本且看起来像 Markdown 时，按 Markdown 解析插入
+        const clipboard = event.clipboardData;
+        if (!clipboard) return false;
+
+        const html = clipboard.getData("text/html");
+        const text = clipboard.getData("text/plain");
+
+        // 有 HTML 就交给默认逻辑（比如从网页复制富文本）
+        if (html && html.trim().length > 0) return false;
+        if (!text || text.trim().length === 0) return false;
+
+        if (!looksLikeMarkdown(text)) return false;
+
+        event.preventDefault();
+        editor?.commands.insertContent(text, { contentType: "markdown" });
+        return true;
       },
     },
     immediatelyRender: false,
@@ -227,16 +290,38 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
               // 使用服务器数据
               setTitle(post.title || "");
               setTagsText(post.tagList?.join(", ") || "");
-              editor.commands.setContent(post.content || "");
-              setWordCount(countWords(post.content || ""));
+              setPublishSettings({
+                categoryId: post.categoryId,
+                coverImage: post.coverImage,
+                summary: post.summary,
+              });
+              const serverContent = post.content || "";
+              if (looksLikeHtml(serverContent)) {
+                editor.commands.setContent(serverContent);
+                setWordCount(countWords(serverContent));
+              } else {
+                editor.commands.setContent(serverContent, { contentType: "markdown" });
+                setWordCount(serverContent.replace(/\s/g, "").length);
+              }
               clearEditDraft(postId);
             }
           } else {
             // 直接使用服务器数据
             setTitle(post.title || "");
             setTagsText(post.tagList?.join(", ") || "");
-            editor.commands.setContent(post.content || "");
-            setWordCount(countWords(post.content || ""));
+            setPublishSettings({
+              categoryId: post.categoryId,
+              coverImage: post.coverImage,
+              summary: post.summary,
+            });
+            const serverContent = post.content || "";
+            if (looksLikeHtml(serverContent)) {
+              editor.commands.setContent(serverContent);
+              setWordCount(countWords(serverContent));
+            } else {
+              editor.commands.setContent(serverContent, { contentType: "markdown" });
+              setWordCount(serverContent.replace(/\s/g, "").length);
+            }
           }
         } else {
           setErrorMsg(data.message ?? "文章不存在");
@@ -259,7 +344,6 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
 
     if (!editor) return;
 
-    const htmlContent = editor.getHTML();
     const textContent = editor.getText();
 
     if (!title.trim()) {
@@ -272,14 +356,16 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
       return;
     }
 
-    // 创建模式：显示发布设置弹窗
+    // 创建模式：滚动到下半部分发布设置（类似 CSDN）
     if (mode === "create") {
-      setShowPublishSettings(true);
+      publishSettingsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      setSuccessMsg("请在下方完善发布设置，然后点击“确认发布”");
+      setTimeout(() => setSuccessMsg(null), 2000);
       return;
     }
 
-    // 编辑模式：直接提交
-    await handlePublish({});
+    // 编辑模式：直接提交（使用当前发布设置）
+    await handlePublish(publishSettings);
   };
 
   // 实际的发布/更新逻辑
@@ -287,14 +373,15 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
     if (!editor) return;
 
     setLoading(true);
-    setShowPublishSettings(false);
 
     try {
-      const htmlContent = editor.getHTML();
+      const mdContent = editor.getMarkdown();
       const tags = tagsText.split(",").map((t) => t.trim()).filter(Boolean);
       
       // 生成摘要（如果用户未提供）
-      const finalSummary = settings.summary || getExcerpt(htmlContent, 200);
+      const plainText = editor.getText().replace(/\s+/g, " ").trim();
+      const finalSummary =
+        settings.summary || (plainText.length > 200 ? `${plainText.slice(0, 200)}...` : plainText);
       
       const url = mode === "create" 
         ? `${API_BASE_URL}/post/add`
@@ -303,7 +390,7 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
       const body = mode === "create"
         ? {
             title,
-            content: htmlContent,
+            content: mdContent,
             tags,
             categoryId: settings.categoryId,
             coverImage: settings.coverImage,
@@ -312,7 +399,7 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
         : {
             id: Number(postId),
             title,
-            content: htmlContent,
+            content: mdContent,
             tags,
             categoryId: settings.categoryId,
             coverImage: settings.coverImage,
@@ -375,6 +462,20 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
     setTimeout(() => setSuccessMsg(null), 2000);
   };
 
+  const handleSaveAndPreview = () => {
+    handleSaveDraft();
+    setDraftMenuOpen(false);
+
+    // edit：直接预览线上文章
+    if (mode === "edit" && postId) {
+      window.open(`/post/${postId}`, "_blank");
+      return;
+    }
+
+    // create：预览本地草稿
+    window.open("/post/preview", "_blank");
+  };
+
   if (fetching || !editor) {
     return (
       <main className="min-h-screen bg-white dark:bg-black pt-20">
@@ -389,33 +490,77 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
     <div className="w-full min-h-screen bg-[#f5f6f7] flex flex-col">
       <form onSubmit={onSubmit} className="flex-1 flex flex-col">
         {/* 顶部工具栏 */}
-        <div className="sticky top-0 z-20 border-b border-gray-200 bg-white px-4 py-2 dark:border-gray-800 dark:bg-black">
-          <div className="flex items-center justify-between">
-            <EditorToolbar
-              editor={editor}
-              onAddLink={addLink}
-              onAddImage={addImage}
-              onShowMarkdown={() => setShowMarkdown(true)}
-            />
-
-            {/* 右侧按钮 */}
-            <div className="flex items-center gap-3">
+        <div className="sticky top-0 z-20 border-b border-gray-200 bg-white/95 backdrop-blur px-4 py-2 dark:border-gray-800 dark:bg-black/80">
+          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
+            {/* 左：导航区 */}
+            <div className="flex items-center gap-3 min-w-0">
               {mode === "edit" && (
                 <button
                   type="button"
                   onClick={() => router.back()}
                   className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
                 >
-                  取消
+                  返回
                 </button>
               )}
+              <div className="min-w-0 text-sm text-gray-500 dark:text-gray-400">
+                <span className="hidden sm:inline">发布文章</span>
+                <span className="mx-2 text-gray-300 dark:text-gray-700">/</span>
+                <span className="truncate text-gray-700 dark:text-gray-200">
+                  {title?.trim() ? title : "未命名"}
+                </span>
+              </div>
+            </div>
+
+            {/* 中：工具区（真正居中） */}
+            <div className="justify-self-center">
+              <EditorToolbar
+                editor={editor}
+                onAddLink={addLink}
+                onAddImage={addImage}
+                onShowMarkdown={() => setShowMarkdown(true)}
+              />
+            </div>
+
+            {/* 右：操作区 */}
+            <div className="flex items-center justify-end gap-3">
+              {/* 保存草稿▼ */}
+              <div ref={draftMenuRef} className="relative">
+                <button
+                  type="button"
+                  onClick={() => setDraftMenuOpen((v) => !v)}
+                  className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                  aria-haspopup="menu"
+                  aria-expanded={draftMenuOpen}
+                >
+                  保存草稿 <span className="text-xs align-middle">▼</span>
+                </button>
+                {draftMenuOpen && (
+                  <div
+                    className="absolute right-0 mt-2 w-40 rounded-md border border-gray-200 bg-white shadow-lg dark:border-gray-800 dark:bg-black"
+                    role="menu"
+                  >
+                    <button
+                      type="button"
+                      role="menuitem"
+                      className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-900"
+                      onClick={handleSaveAndPreview}
+                    >
+                      保存并预览
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* 定时发布（UI 占位） */}
               <button
                 type="button"
-                onClick={handleSaveDraft}
+                onClick={() => alert("定时发布：待接入（可先做 UI，后续接入后端）")}
                 className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
               >
-                保存草稿
+                定时发布
               </button>
+
               <button
                 type="submit"
                 disabled={loading}
@@ -441,7 +586,7 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
         <div className="flex-1 flex relative">
           {/* 左侧目录栏 - 固定宽度，白色背景，独立滚动 */}
           <aside 
-            className="hidden lg:flex shrink-0 flex-col bg-white border-r border-gray-200 dark:bg-black dark:border-gray-800 h-[calc(100vh-110px)] sticky top-[60px] group relative"
+            className="hidden lg:flex shrink-0 flex-col bg-white border-r border-gray-200 dark:bg-black dark:border-gray-800 sticky top-0 h-[calc(100dvh-56px)] self-start group relative"
             style={{ width: sidebarWidth }}
           >
             <div className="flex-1 overflow-y-auto">
@@ -462,38 +607,90 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
             />
           </aside>
 
-          {/* 中间滚动区域 - 包含编辑器纸张 */}
-          <div className="flex-1 flex justify-center overflow-y-auto p-8 pb-24">
-            {/* 编辑器纸张 - 白色背景，阴影 */}
-            <div className="w-full max-w-[850px] bg-white min-h-[800px] shadow-sm rounded-sm px-12 py-10 dark:bg-[#111]">
-              {/* 标题输入 */}
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="请输入文章标题（5～100个字）"
-                maxLength={100}
-                className="w-full border-none text-3xl font-bold text-gray-900 placeholder-gray-300 outline-none dark:bg-[#111] dark:text-white dark:placeholder-gray-700 mb-6"
-              />
-
-              {/* 标签输入 */}
-              <div className="mb-8 flex items-center gap-2 bg-gray-50 p-2 rounded dark:bg-gray-900">
-                <span className="text-xs text-gray-400 select-none">#</span>
+          {/* 中间区域 - 让页面自然滚动（更像 CSDN），并保证纸张真正居中 */}
+          <div className="flex-1 flex justify-center p-8 pb-24">
+            <div className="w-full max-w-[900px] flex flex-col gap-6">
+              {/* 编辑器纸张 - 白色背景，阴影，略更自然的圆角/边框 */}
+              <div className="bg-white min-h-[800px] shadow-sm rounded-md border border-gray-100 px-10 py-9 dark:bg-[#111] dark:border-gray-900">
+                {/* 标题输入 */}
                 <input
                   type="text"
-                  value={tagsText}
-                  onChange={(e) => setTagsText(e.target.value)}
-                  placeholder="标签 (如: Java, Spring Boot)"
-                  className="flex-1 bg-transparent border-none text-sm text-gray-600 placeholder-gray-400 outline-none dark:text-gray-300"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="请输入文章标题（5～100个字）"
+                  maxLength={100}
+                  className="w-full border-none text-3xl font-bold text-gray-900 placeholder-gray-300 outline-none dark:bg-[#111] dark:text-white dark:placeholder-gray-700 mb-6"
                 />
+
+                {/* 标签输入 */}
+                <div className="mb-8 flex items-center gap-2 bg-gray-50 p-2 rounded dark:bg-gray-900">
+                  <span className="text-xs text-gray-400 select-none">#</span>
+                  <input
+                    type="text"
+                    value={tagsText}
+                    onChange={(e) => setTagsText(e.target.value)}
+                    placeholder="标签 (如: Java, Spring Boot)"
+                    className="flex-1 bg-transparent border-none text-sm text-gray-600 placeholder-gray-400 outline-none dark:text-gray-300"
+                  />
+                </div>
+
+                {/* 富文本编辑器 */}
+                <div className="tiptap-editor min-h-[500px]">
+                  <EditorContent editor={editor} />
+                </div>
               </div>
 
-              {/* 富文本编辑器 */}
-              <div className="tiptap-editor min-h-[500px]">
-                <EditorContent editor={editor} />
+              {/* 下半部分：发布设置（类似 CSDN） */}
+              <div
+                ref={publishSettingsRef}
+                className="bg-white shadow-sm rounded-md border border-gray-100 px-10 py-8 dark:bg-[#111] dark:border-gray-900"
+              >
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-lg font-bold text-gray-900 dark:text-white">发布设置</h2>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      publishSettingsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+                    }
+                    className="text-xs text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+                    title="回到发布设置"
+                  >
+                    置顶本区块
+                  </button>
+                </div>
+
+                <PublishSettingsPanel
+                  value={publishSettings}
+                  autoSummary={getExcerpt(editor.getHTML(), 200)}
+                  onChange={setPublishSettings}
+                />
+
+                <div className="mt-8 flex items-center justify-end gap-3 border-t border-gray-200 pt-6 dark:border-gray-800">
+                  <button
+                    type="button"
+                    disabled={loading}
+                    onClick={() => handlePublish(publishSettings)}
+                    className={`rounded-md px-5 py-2 text-sm font-semibold text-white disabled:opacity-60 transition-colors ${
+                      mode === "create"
+                        ? "bg-orange-500 hover:bg-orange-600"
+                        : "bg-purple-600 hover:bg-purple-700"
+                    }`}
+                  >
+                    {loading
+                      ? mode === "create"
+                        ? "发布中..."
+                        : "保存中..."
+                      : mode === "create"
+                      ? "确认发布"
+                      : "确认保存"}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
+
+          {/* 右侧对称留白：宽度与目录一致，让中间纸张视觉上真正居中 */}
+          <div className="hidden lg:block shrink-0" style={{ width: sidebarWidth }} aria-hidden="true" />
         </div>
 
         {/* 底部状态栏 - 固定 */}
@@ -503,9 +700,13 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
               <div className="text-sm text-gray-500 dark:text-gray-400">
                 共 {wordCount} 字
               </div>
-              <div className="text-sm text-gray-500 cursor-pointer flex items-center gap-1">
+              <button
+                type="button"
+                onClick={() => publishSettingsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                className="text-sm text-gray-500 hover:text-gray-900 cursor-pointer flex items-center gap-1 dark:text-gray-400 dark:hover:text-white"
+              >
                 发文设置 <span className="text-xs">▼</span>
-              </div>
+              </button>
             </div>
 
             <div className="flex items-center gap-4">
@@ -534,16 +735,6 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
           </div>
         )}
       </form>
-
-      {/* 发布设置弹窗 */}
-      {showPublishSettings && editor && (
-        <PublishSettings
-          initialSettings={publishSettings}
-          autoSummary={getExcerpt(editor.getHTML(), 200)}
-          onConfirm={handlePublish}
-          onCancel={() => setShowPublishSettings(false)}
-        />
-      )}
 
       {/* Markdown 预览弹窗 */}
       {showMarkdown && (

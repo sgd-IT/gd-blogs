@@ -5,6 +5,7 @@ import com.gdblogs.common.ResultUtils;
 import com.gdblogs.exception.BusinessException;
 import com.gdblogs.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +22,8 @@ import java.util.UUID;
 public class FileController {
 
     // 文件存储路径（项目根目录下的 uploads/images/）
-    private static final String UPLOAD_DIR = "uploads/images/";
+    @Value("${file.upload-dir}")
+    private String uploadDir;
 
     /**
      * 上传图片
@@ -62,22 +64,22 @@ public class FileController {
             String filename = System.currentTimeMillis() + "_" + UUID.randomUUID().toString() + extension;
 
             // 确保目录存在
-            File uploadDir = new File(UPLOAD_DIR);
-            if (!uploadDir.exists()) {
-                boolean created = uploadDir.mkdirs();
+            File folder = new File(uploadDir);
+            if (!folder.exists()) {
+                boolean created = folder.mkdirs();
                 if (!created) {
                     throw new BusinessException(ErrorCode.SYSTEM_ERROR, "创建上传目录失败");
                 }
             }
 
             // 保存文件
-            File dest = new File(UPLOAD_DIR + filename);
-            file.transferTo(dest);
+            File dest = new File(folder, filename);
+            file.transferTo(dest.getAbsoluteFile());
 
+            log.info("文件保存成功: {}", dest.getAbsolutePath());
             // 返回访问 URL
             String url = "/uploads/images/" + filename;
             log.info("文件上传成功: {}", url);
-            
             return ResultUtils.success(url);
 
         } catch (IOException e) {

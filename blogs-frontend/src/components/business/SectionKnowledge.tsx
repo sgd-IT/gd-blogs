@@ -1,8 +1,12 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { BookMarked, FileText, ArrowUpRight, Sparkles } from "lucide-react";
+import { listPostVoByPage } from "@/services/post";
+import { stripRichText } from "@/lib/html";
+import type { PostVO } from "@/types";
 
 type PickItem = {
   title: string;
@@ -52,38 +56,6 @@ const PROJECT_PICKS: PickItem[] = [
     reason: "把注册中心、网关、限流、缓存、消息队列这些点完整走一遍。",
     tags: ["Spring Cloud", "Redis", "Docker"],
     date: "2025-11-08"
-  }
-];
-
-// 右侧：学习笔记 / 博客（先站内跳到列表页，后续你再决定详情页路由）
-const NOTES = [
-  {
-    title: "Next.js 缓存机制踩坑记录",
-    summary: "fetch 在服务端组件中默认缓存及其 revalidate 策略，以及如何正确使用 unstable_noStore。",
-    category: "Next.js",
-    lastUpdated: "2 days ago",
-    href: "/post/my"
-  },
-  {
-    title: "TypeScript 高级类型体操",
-    summary: "使用 infer 关键字提取 Promise 返回类型的技巧，以及 Template Literal Types 的妙用。",
-    category: "TypeScript",
-    lastUpdated: "1 week ago",
-    href: "/post/my"
-  },
-  {
-    title: "CSS 现代化：从 CSS Modules 到 Tailwind",
-    summary: "回顾 CSS 方案的演进，为什么原子化 CSS 是大型项目的终局。",
-    category: "CSS",
-    lastUpdated: "2 weeks ago",
-    href: "/post/my"
-  },
-  {
-    title: "Docker 容器化部署指南",
-    summary: "如何编写多阶段构建的 Dockerfile，优化镜像体积。",
-    category: "DevOps",
-    lastUpdated: "1 month ago",
-    href: "/post/my"
   }
 ];
 
@@ -181,6 +153,50 @@ export function SectionKnowledge() {
     (a, b) => Number(!!b.pinned) - Number(!!a.pinned)
   );
 
+  type NoteCard = {
+    title: string;
+    summary: string;
+    category: string;
+    lastUpdated: string;
+    href: string;
+  };
+
+  const [notes, setNotes] = useState<NoteCard[]>([]);
+
+  useEffect(() => {
+    const fetchHomeNotes = async () => {
+      try {
+        const res = await listPostVoByPage({
+          pageSize: 5,
+          isHome: 1,
+          sortField: "createTime",
+          sortOrder: "descend",
+        });
+
+        if (res.code === 0 && res.data?.records) {
+          const records = res.data.records as PostVO[];
+          const mappedNotes: NoteCard[] = records.map((post) => ({
+            title: post.title,
+            summary:
+              post.summary ||
+              (() => {
+                const text = stripRichText(post.content);
+                return text.length > 60 ? `${text.slice(0, 60)}...` : text;
+              })(),
+            category: post.tagList?.[0] || "Blog",
+            lastUpdated: post.createTime?.substring(0, 10) ?? "",
+            href: `/post/${post.id}`,
+          }));
+          setNotes(mappedNotes);
+        }
+      } catch (error) {
+        console.error("Failed to fetch home notes:", error);
+      }
+    };
+
+    fetchHomeNotes();
+  }, []);
+
   return (
     <section className="py-24 px-4 md:px-8 bg-white dark:bg-black/50 border-t border-gray-100 dark:border-gray-800 transition-colors duration-300 relative overflow-hidden">
       {/* 顶部过渡：承接上一分区的浅灰底，让衔接更顺 */}
@@ -241,33 +257,39 @@ export function SectionKnowledge() {
               <div className="text-xs text-gray-400">Recent posts</div>
             </div>
             <div className="space-y-4">
-              {NOTES.map((note, i) => (
-                 <motion.div 
-                   key={i}
-                   initial={{ opacity: 0, x: 20 }}
-                   whileInView={{ opacity: 1, x: 0 }}
-                   viewport={{ once: true }}
-                   transition={{ delay: i * 0.1 }}
-                 >
-                    <Link
-                      href={note.href}
-                      className="block p-5 rounded-2xl border border-dashed border-gray-300 dark:border-gray-700 hover:border-solid hover:border-purple-300 dark:hover:border-purple-800 bg-transparent hover:bg-purple-50/50 dark:hover:bg-purple-900/10 transition-all cursor-pointer group"
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                         <span className="text-xs font-medium px-2 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">
-                            {note.category}
-                         </span>
-                         <span className="text-xs text-gray-400">{note.lastUpdated}</span>
-                      </div>
-                      <h4 className="font-bold text-gray-800 dark:text-gray-200 mb-2 group-hover:text-purple-600 transition-colors">
-                         {note.title}
-                      </h4>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
-                         {note.summary}
-                      </p>
-                    </Link>
-                 </motion.div>
-              ))}
+              {notes.length === 0 ? (
+                 <div className="text-sm text-gray-400 p-4 border border-dashed rounded-xl text-center">
+                    暂无精选笔记 (isHome=1)
+                 </div>
+              ) : (
+                  notes.map((note, i) => (
+                     <motion.div 
+                       key={i}
+                       initial={{ opacity: 0, x: 20 }}
+                       whileInView={{ opacity: 1, x: 0 }}
+                       viewport={{ once: true }}
+                       transition={{ delay: i * 0.1 }}
+                     >
+                        <Link
+                          href={note.href}
+                          className="block p-5 rounded-2xl border border-dashed border-gray-300 dark:border-gray-700 hover:border-solid hover:border-purple-300 dark:hover:border-purple-800 bg-transparent hover:bg-purple-50/50 dark:hover:bg-purple-900/10 transition-all cursor-pointer group"
+                        >
+                          <div className="flex items-center justify-between mb-2">
+                             <span className="text-xs font-medium px-2 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">
+                                {note.category}
+                             </span>
+                             <span className="text-xs text-gray-400">{note.lastUpdated}</span>
+                          </div>
+                          <h4 className="font-bold text-gray-800 dark:text-gray-200 mb-2 group-hover:text-purple-600 transition-colors">
+                             {note.title}
+                          </h4>
+                          <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
+                             {note.summary}
+                          </p>
+                        </Link>
+                     </motion.div>
+                  ))
+              )}
             </div>
 
               {/* More Link */}
@@ -279,9 +301,7 @@ export function SectionKnowledge() {
            </div>
         </div>
 
-
       </div>
     </section>
   );
 }
-

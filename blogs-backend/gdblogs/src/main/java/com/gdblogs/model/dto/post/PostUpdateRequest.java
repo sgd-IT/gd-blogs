@@ -30,6 +30,36 @@ public class PostUpdateRequest implements Serializable {
      */
     private List<String> tags;
 
+    /**
+     * 封面图片
+     */
+    private String coverImage;
+
+    /**
+     * 文章摘要
+     */
+    private String summary;
+
+    /**
+     * 分类 id
+     */
+    private Long categoryId;
+
+    /**
+     * 是否精选
+     */
+    private Integer isFeatured;
+
+    /**
+     * 外部链接
+     */
+    private String externalLink;
+
+    /**
+     * 是否展示在主页
+     */
+    private Integer isHome;
+
     private static final long serialVersionUID = 1L;
 }
 
