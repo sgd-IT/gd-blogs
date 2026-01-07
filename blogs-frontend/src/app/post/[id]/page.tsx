@@ -39,7 +39,8 @@ function extractText(node: ReactNode): string {
 }
 
 function makeHeadingId(text: string, used: Map<string, number>) {
-  const base = slugify(text) || "section";
+  const cleanText = text.replace(/\s+#*\s*$/, "");
+  const base = slugify(cleanText) || "section";
   const n = (used.get(base) ?? 0) + 1;
   used.set(base, n);
   return n === 1 ? base : `${base}-${n}`;
@@ -124,7 +125,7 @@ export default function PostDetailPage() {
 
   return (
     <main className="min-h-screen bg-white dark:bg-black pt-20">
-      <div className="container mx-auto px-4 max-w-6xl pb-12">
+      <div className="container mx-auto px-4 max-w-[1800px] pb-12">
         {/* 返回按钮 */}
         <div className="mb-6">
           <button
@@ -135,23 +136,15 @@ export default function PostDetailPage() {
           </button>
         </div>
 
-        <div className="flex gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr_320px] gap-8 items-start">
           {/* 左侧目录（仅 Markdown 时展示） */}
-          {!isHtml ? <MarkdownToc markdown={content} /> : null}
+          <div className="hidden lg:block">
+            {!isHtml ? <MarkdownToc markdown={content} /> : null}
+          </div>
 
           {/* 文章内容 */}
-          <article className="flex-1 rounded-xl border border-gray-100 bg-white p-8 shadow-sm dark:border-gray-800 dark:bg-black">
-            {/* 封面图 */}
-            {post.coverImage ? (
-              <div className="mb-6 overflow-hidden rounded-xl border border-gray-100 dark:border-gray-800">
-                <img
-                  src={post.coverImage}
-                  alt={post.title}
-                  className="w-full max-h-[360px] object-cover"
-                />
-              </div>
-            ) : null}
-
+          <article className="w-full max-w-5xl mx-auto min-w-0 rounded-xl border border-gray-100 bg-white p-8 shadow-sm dark:border-gray-800 dark:bg-black">
+            
             {/* 标题 */}
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
               {post.title}
@@ -186,11 +179,11 @@ export default function PostDetailPage() {
             {/* 正文内容：HTML 或 Markdown */}
             {isHtml ? (
               <div
-                className="prose prose-gray max-w-none dark:prose-invert prose-headings:font-bold prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-a:text-purple-600 prose-a:no-underline hover:prose-a:underline prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-900 prose-pre:text-gray-100"
+                className="prose prose-gray max-w-none dark:prose-invert prose-p:text-gray-600 dark:prose-p:text-gray-300 prose-li:text-gray-600 dark:prose-li:text-gray-300 prose-headings:scroll-mt-24 prose-headings:font-bold prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-a:text-purple-600 prose-a:no-underline hover:prose-a:underline prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-900 prose-pre:text-gray-100"
                 dangerouslySetInnerHTML={{ __html: content }}
               />
             ) : (
-              <div className="prose prose-gray max-w-none dark:prose-invert prose-headings:font-bold prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-a:text-purple-600 prose-a:no-underline hover:prose-a:underline prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-900 prose-pre:text-gray-100">
+              <div className="prose prose-gray max-w-none dark:prose-invert prose-p:text-gray-600 dark:prose-p:text-gray-300 prose-li:text-gray-600 dark:prose-li:text-gray-300 prose-headings:scroll-mt-24 prose-headings:font-bold prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-a:text-purple-600 prose-a:no-underline hover:prose-a:underline prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-900 prose-pre:text-gray-100">
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[[rehypeHighlight, { detect: true, ignoreMissing: true }]]}
@@ -199,7 +192,7 @@ export default function PostDetailPage() {
                       const text = extractText(children).trim();
                       const id = makeHeadingId(text, usedHeadingIds);
                       return (
-                        <h1 id={id} {...props}>
+                        <h1 id={id} className="scroll-mt-24" {...props}>
                           {children}
                         </h1>
                       );
@@ -208,7 +201,7 @@ export default function PostDetailPage() {
                       const text = extractText(children).trim();
                       const id = makeHeadingId(text, usedHeadingIds);
                       return (
-                        <h2 id={id} {...props}>
+                        <h2 id={id} className="scroll-mt-24" {...props}>
                           {children}
                         </h2>
                       );
@@ -217,7 +210,7 @@ export default function PostDetailPage() {
                       const text = extractText(children).trim();
                       const id = makeHeadingId(text, usedHeadingIds);
                       return (
-                        <h3 id={id} {...props}>
+                        <h3 id={id} className="scroll-mt-24" {...props}>
                           {children}
                         </h3>
                       );
@@ -226,7 +219,7 @@ export default function PostDetailPage() {
                       const text = extractText(children).trim();
                       const id = makeHeadingId(text, usedHeadingIds);
                       return (
-                        <h4 id={id} {...props}>
+                        <h4 id={id} className="scroll-mt-24" {...props}>
                           {children}
                         </h4>
                       );
@@ -235,7 +228,7 @@ export default function PostDetailPage() {
                       const text = extractText(children).trim();
                       const id = makeHeadingId(text, usedHeadingIds);
                       return (
-                        <h5 id={id} {...props}>
+                        <h5 id={id} className="scroll-mt-24" {...props}>
                           {children}
                         </h5>
                       );
@@ -244,7 +237,7 @@ export default function PostDetailPage() {
                       const text = extractText(children).trim();
                       const id = makeHeadingId(text, usedHeadingIds);
                       return (
-                        <h6 id={id} {...props}>
+                        <h6 id={id} className="scroll-mt-24" {...props}>
                           {children}
                         </h6>
                       );
@@ -268,6 +261,9 @@ export default function PostDetailPage() {
               </div>
             )}
           </article>
+          
+          {/* 右侧占位，用于保证中间文章居中 */}
+          <div className="hidden lg:block"></div>
         </div>
       </div>
     </main>

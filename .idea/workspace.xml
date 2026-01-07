@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ad046f9-cfd0-459d-8283-d5ffd70d4720" name="更改" comment="前端 (Frontend)&#10;完善编辑文章页面的md支持和样式&#10;主页的学习笔记可以添加自己的文章&#10;后端 (Backend)&#10;在文章表中添加缺少的字段（categoryId，coverImage，summary）&#10;修改上传路径，添加了静态资源映射">
-      <change afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blogs-frontend/src/services/post.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/app/post/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/app/post/[id]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/app/post/my/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/app/post/my/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/business/MarkdownToc.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/components/business/MarkdownToc.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,12 +24,12 @@
     &quot;assignee&quot;: &quot;sgd-IT&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/sgd-IT/gd-blogs.git",
-    "accountId": "94b2207b-8d8f-4570-8c64-d961ab18cda2"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/sgd-IT/gd-blogs.git&quot;,
+    &quot;accountId&quot;: &quot;94b2207b-8d8f-4570-8c64-d961ab18cda2&quot;
   }
-}]]></component>
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -118,7 +119,9 @@
       <workItem from="1767581157081" duration="1162000" />
       <workItem from="1767597631788" duration="5470000" />
       <workItem from="1767667446089" duration="86000" />
-      <workItem from="1767684329227" duration="326000" />
+      <workItem from="1767684329227" duration="530000" />
+      <workItem from="1767685034218" duration="184000" />
+      <workItem from="1767751411917" duration="2673000" />
     </task>
     <task id="LOCAL-00001" summary="后端：用户的登录注册，文章的CRUD&#10;前端：添加了导航栏右侧的登录状态">
       <option name="closed" value="true" />
@@ -152,7 +155,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767684558997</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="前端 (Frontend)&#10;完善编辑文章页面的md支持和样式&#10;主页的学习笔记可以添加自己的文章&#10;后端 (Backend)&#10;在文章表中添加缺少的字段（categoryId，coverImage，summary）&#10;修改上传路径，添加了静态资源映射">
+      <option name="closed" value="true" />
+      <created>1767684831235</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1767684831235</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

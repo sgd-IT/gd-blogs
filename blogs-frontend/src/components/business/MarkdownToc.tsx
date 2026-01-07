@@ -79,11 +79,11 @@ export default function MarkdownToc({ markdown }: { markdown: string }) {
   if (!toc.length) return null;
 
   return (
-    <aside className="hidden lg:block w-[280px] shrink-0">
-      <div className="sticky top-24 rounded-xl border border-gray-100 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-black">
-        <div className="text-sm font-bold text-gray-900 dark:text-white">目录</div>
-        <div className="mt-3 max-h-[70vh] overflow-auto pr-1">
-          <ul className="space-y-1 text-sm">
+    <aside className="hidden lg:block w-[320px] shrink-0">
+      <div className="sticky top-24 rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-black">
+        <div className="text-base font-bold text-gray-900 dark:text-white mb-4">目录</div>
+        <div className="max-h-[70vh] overflow-auto pr-2">
+          <ul className="space-y-1.5 text-sm">
             {toc.map((item) => {
               const indent =
                 item.level === 1

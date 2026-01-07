@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { stripHtml } from "@/lib/html";
 import type { PostVO, PageResp } from "@/types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8124";
 
 export default function MyPostsPage() {
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [page, setPage] = useState<PageResp<PostVO> | null>(null);
@@ -101,16 +103,26 @@ export default function MyPostsPage() {
                 (page?.records ?? []).map((p) => (
                   <div
                     key={p.id}
-                    className="rounded-xl border border-gray-100 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-black"
+                    role="link"
+                    tabIndex={0}
+                    onClick={() => router.push(`/post/${p.id}`)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        router.push(`/post/${p.id}`);
+                      }
+                    }}
+                    className="cursor-pointer rounded-xl border border-gray-100 bg-white p-5 shadow-sm hover:shadow-md transition-all dark:border-gray-800 dark:bg-black"
                   >
                     <div className="flex items-start justify-between gap-4">
-                      <div className="min-w-0">
-                        <Link href={`/post/${p.id}`} className="block">
-                          <div className="text-lg font-bold text-gray-900 dark:text-white hover:text-purple-600 transition-colors">{p.title}</div>
-                          <div className="mt-2 line-clamp-2 text-sm text-gray-600 dark:text-gray-300">
-                            {stripHtml(p.content)}
-                          </div>
-                        </Link>
+                      {/* 左侧：标题 + 摘要 + 标签 + 时间 */}
+                      <div className="min-w-0 flex-1">
+                        <div className="text-lg font-bold text-gray-900 dark:text-white hover:text-purple-600 transition-colors line-clamp-1">
+                          {p.title}
+                        </div>
+                        <div className="mt-2 line-clamp-2 text-sm text-gray-600 dark:text-gray-300">
+                          {(p.summary?.trim() || stripHtml(p.content).trim()).slice(0, 140)}
+                        </div>
                         {p.tagList?.length ? (
                           <div className="mt-3 flex flex-wrap gap-2">
                             {p.tagList.map((t) => (
@@ -124,29 +136,36 @@ export default function MyPostsPage() {
                           </div>
                         ) : null}
                         <div className="mt-2 text-xs text-gray-400">
-                          {p.updateTime ?? p.createTime ?? ""}
+                          {(p.updateTime ?? p.createTime ?? "").toString().slice(0, 10)}
                         </div>
                       </div>
                       
-                      <div className="flex flex-col gap-3 shrink-0 pt-1">
-                        <Link
-                          href={`/post/${p.id}`}
-                          className="text-xs font-medium text-gray-500 hover:text-purple-600 hover:underline"
-                        >
-                          查看
-                        </Link>
-                        <Link
-                          href={`/post/edit/${p.id}`}
-                          className="text-xs font-medium text-blue-600 hover:underline"
-                        >
-                          编辑
-                        </Link>
-                        <button
-                          onClick={() => handleDelete(p.id)}
-                          className="text-xs font-medium text-red-600 hover:underline text-left"
-                        >
-                          删除
-                        </button>
+                      {/* 右侧：封面图 + 操作 */}
+                      <div className="flex items-start gap-4 shrink-0 pt-1">
+                        {p.coverImage ? (
+                          <div className="shrink-0 w-[140px] h-[96px] rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800 border border-gray-100 dark:border-gray-800">
+                            <img src={p.coverImage} alt={p.title} className="w-full h-full object-cover" />
+                          </div>
+                        ) : null}
+
+                        <div className="flex flex-col gap-3 shrink-0">
+                          <Link
+                            href={`/post/edit/${p.id}`}
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-xs font-medium text-blue-600 hover:underline"
+                          >
+                            编辑
+                          </Link>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDelete(p.id);
+                            }}
+                            className="text-xs font-medium text-red-600 hover:underline text-left"
+                          >
+                            删除
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -159,3 +178,4 @@ export default function MyPostsPage() {
     </main>
   );
 }
+
