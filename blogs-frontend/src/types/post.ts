@@ -51,6 +51,7 @@ export interface PostAddRequest {
   categoryId?: number;
   coverImage?: string;
   summary?: string;
+  isHome?: number;
 }
 
 // 文章更新请求
@@ -62,6 +63,7 @@ export interface PostUpdateRequest {
   categoryId?: number;
   coverImage?: string;
   summary?: string;
+  isHome?: number;
 }
 
 // 编辑器模式
@@ -85,5 +87,5 @@ export interface PublishSettings {
   categoryId?: number;
   coverImage?: string;
   summary?: string;
+  isHome?: number;
 }
-

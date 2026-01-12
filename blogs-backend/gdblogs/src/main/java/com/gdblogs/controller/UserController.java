@@ -6,6 +6,7 @@ import com.gdblogs.exception.BusinessException;
 import com.gdblogs.exception.ErrorCode;
 import com.gdblogs.model.dto.user.UserLoginRequest;
 import com.gdblogs.model.dto.user.UserRegisterRequest;
+import com.gdblogs.model.dto.user.UserUpdateMyRequest;
 import com.gdblogs.model.vo.LoginUserVO;
 import com.gdblogs.service.UserService;
 import jakarta.annotation.Resource;
@@ -34,6 +35,23 @@ public class UserController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "参数为空");
         }
         long result = userService.userRegister(userRegisterRequest);
+        return ResultUtils.success(result);
+    }
+
+    /**
+     * 更新个人信息
+     *
+     * @param userUpdateMyRequest 更新请求
+     * @param request             HttpServletRequest
+     * @return 是否成功
+     */
+    @PostMapping("/update/my")
+    public BaseResponse<Boolean> updateMyUser(@RequestBody UserUpdateMyRequest userUpdateMyRequest,
+                                              HttpServletRequest request) {
+        if (userUpdateMyRequest == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        boolean result = userService.updateMyUser(userUpdateMyRequest, request);
         return ResultUtils.success(result);
     }
 

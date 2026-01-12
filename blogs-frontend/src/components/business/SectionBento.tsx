@@ -8,49 +8,73 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Marquee from "@/components/ui/marquee";
+import { MagneticButton } from "@/components/ui/magnetic-button";
 
 // 模拟项目数据
 const FEATURED_PROJECT = {
   title: "CloudTaste Delivery",
   description: "基于 Spring Cloud 微服务架构的分布式外卖系统，支持高并发订单处理。",
   tags: ["Spring Cloud", "Docker", "Vue 3", "Redis"],
-  image: "bg-gradient-to-br from-blue-900 to-slate-900" // 这里可以用真实图片 URL 替换
+  image: "bg-gradient-to-br from-blue-900 to-slate-900" 
 };
 
 // 模拟最近代码量数值 (纯数据)
 const MOCK_COUNTS = [2450, 3200, 1890, 4100, 1200, 5600, 1800];
 
 // --- 辅助组件：卡片容器 ---
-const BentoCard = ({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ delay, duration: 0.5 }}
-    className={cn(
-      "group relative overflow-hidden rounded-3xl border border-gray-200 dark:border-white/10 bg-white dark:bg-black/40 backdrop-blur-md p-6 hover:shadow-xl dark:hover:bg-white/5 transition-all duration-300",
-      className
-    )}
-  >
-    {children}
-  </motion.div>
-);
+const BentoCard = ({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) => {
+  // 分离布局类名（给外层 motion.div）和样式类名（给内层 div）
+  const isColSpan = className?.includes("col-span");
+  const isRowSpan = className?.includes("row-span");
+  
+  // 提取布局相关的类名
+  const layoutClasses = [
+    isColSpan || isRowSpan ? "" : "col-span-1",
+    className?.match(/col-span-\d+/)?.[0],
+    className?.match(/row-span-\d+/)?.[0],
+    className?.match(/md:col-span-\d+/)?.[0],
+    className?.match(/md:row-span-\d+/)?.[0],
+  ].filter(Boolean).join(" ");
+
+  // 移除布局类名，剩下的给内部容器作为样式
+  const styleClasses = className?.replace(/col-span-\d+|row-span-\d+|md:col-span-\d+|md:row-span-\d+/g, "").trim();
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ delay, duration: 0.6, ease: "easeOut" }}
+      className={cn("h-full", layoutClasses)}
+    >
+      <div 
+        className={cn(
+          // 基础卡片样式
+          "group relative overflow-hidden rounded-3xl border border-gray-200 dark:border-white/10 bg-white dark:bg-black/40 backdrop-blur-md p-6 hover:shadow-xl dark:hover:bg-white/5 transition-all duration-300 h-full",
+          // 关键修复：强制 GPU 渲染层，解决 Safari/Chrome 圆角溢出 bug (Black corners fix)
+          "transform-gpu [transform:translateZ(0)]",
+          styleClasses
+        )}
+      >
+        {children}
+      </div>
+    </motion.div>
+  );
+};
 
 export function SectionBento() {
   const [codingStats, setCodingStats] = React.useState(
-    MOCK_COUNTS.map(count => ({ count, date: "", day: "" })) // Initial safe state
+    MOCK_COUNTS.map(count => ({ count, date: "", day: "" }))
   );
 
   React.useEffect(() => {
     const today = new Date();
     const newStats = MOCK_COUNTS.map((count, index) => {
-      // 倒推日期：最后一天(index=6)是今天
       const targetDate = new Date(today);
       targetDate.setDate(today.getDate() - (6 - index));
-      
       return {
         count,
-        date: targetDate.getDate().toString().padStart(2, '0'), // 补零: 01, 02...
+        date: targetDate.getDate().toString().padStart(2, '0'),
         day: targetDate.toLocaleDateString('en-US', { weekday: 'short' }),
       };
     });
@@ -59,21 +83,28 @@ export function SectionBento() {
 
   return (
     <section className="py-24 px-4 md:px-8 relative overflow-hidden bg-gradient-to-b from-white via-gray-50 to-gray-50 dark:from-black dark:via-black/60 dark:to-black text-gray-900 dark:text-white transition-colors duration-300">
-      {/* 顶部/底部过渡：让分区衔接更自然 */}
-      <div className="pointer-events-none absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-white to-transparent dark:from-black z-0" />
-      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-gray-50 to-transparent dark:from-black z-0" />
+      
+      {/* 顶部/底部过渡 */}
+      <div className="pointer-events-none absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white to-transparent dark:from-black z-0" />
+      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-gray-50 to-transparent dark:from-black z-0" />
 
       <div className="relative z-10">
         {/* 标题 */}
-        <div className="max-w-7xl mx-auto mb-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="max-w-7xl mx-auto mb-12"
+        >
           <h2 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 to-gray-500 dark:from-white dark:to-gray-500 bg-clip-text text-transparent">
             Selected Works & Stats
           </h2>
-        </div>
+        </motion.div>
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[180px]">
         
-        {/* 1. 核心项目展示 (Featured Project) - 2x2 */}
+        {/* 1. 核心项目展示 */}
         <BentoCard className="md:col-span-2 md:row-span-2 relative group cursor-pointer border-blue-500/20 bg-gray-900 text-white">
           <div className={`absolute inset-0 ${FEATURED_PROJECT.image} transition-transform duration-700 group-hover:scale-105 opacity-50`} />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
@@ -94,19 +125,22 @@ export function SectionBento() {
             </p>
             
             <div className="flex gap-4 opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-              <button className="flex items-center gap-2 text-sm font-medium hover:text-blue-400 transition-colors">
-                <Github size={16} /> View Code
-              </button>
-              <button className="flex items-center gap-2 text-sm font-medium hover:text-blue-400 transition-colors">
-                <ExternalLink size={16} /> Live Demo
-              </button>
+              <MagneticButton>
+                <button className="flex items-center gap-2 text-sm font-medium hover:text-blue-400 transition-colors px-4 py-2 rounded-full bg-white/10 border border-white/20">
+                  <Github size={16} /> View Code
+                </button>
+              </MagneticButton>
+              <MagneticButton>
+                <button className="flex items-center gap-2 text-sm font-medium hover:text-blue-400 transition-colors px-4 py-2 rounded-full bg-white/10 border border-white/20">
+                  <ExternalLink size={16} /> Live Demo
+                </button>
+              </MagneticButton>
             </div>
           </div>
         </BentoCard>
 
-        {/* 2. 技术栈 (The Toolkit) - 1x1 */}
+        {/* 2. 技术栈 */}
         <BentoCard delay={0.1} className="flex flex-col justify-center items-center relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-[#0a0a0a] dark:to-[#000000]">
-          {/* Cyberpunk Grid Background */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
           
           <div className="text-xs font-bold uppercase tracking-wider mb-6 z-10 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]">
@@ -136,21 +170,18 @@ export function SectionBento() {
             ))}
           </Marquee>
           
-          {/* Side Fade with color hint */}
           <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-gray-50 dark:from-black to-transparent z-10" />
           <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-gray-50 dark:from-black to-transparent z-10" />
         </BentoCard>
 
-        {/* 3. 最近修仙 (Coding Stats) */}
+        {/* 3. Coding Stats */}
         <BentoCard delay={0.2} className="md:col-span-1 md:row-span-1 flex flex-col p-6 min-h-[180px]">
            <div className="flex items-center justify-between mb-4">
              <div className="text-xs text-gray-500 font-bold uppercase tracking-wider">7-Day Lines</div>
              <div className="text-xs text-blue-500 dark:text-blue-400 font-mono font-bold">+20.3k</div>
            </div>
            
-           {/* 图表区域：强制撑开高度 */}
            <div className="flex-1 w-full flex items-end justify-between gap-2 min-h-[80px] relative">
-             {/* 背景虚线网格 */}
              <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20">
                <div className="w-full border-t border-dashed border-gray-400"></div>
                <div className="w-full border-t border-dashed border-gray-400"></div>
@@ -158,20 +189,15 @@ export function SectionBento() {
              </div>
 
              {codingStats.map((stat, i) => {
-               // 找出最大值，给它加特殊光效
                const isMax = stat.count === Math.max(...codingStats.map(s => s.count));
-               
                return (
                <div key={i} className="relative flex-1 h-full flex items-end group/bar z-10">
-                  {/* Tooltip */}
                   <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover/bar:opacity-100 transition-opacity whitespace-nowrap z-20 pointer-events-none shadow-xl border border-gray-700">
                     <span className="font-bold">{stat.count}</span> <span className="text-gray-400">lines</span>
                   </div>
                   
-                  {/* 柱子背景槽 (玻璃质感) */}
                   <div className="absolute bottom-0 w-full h-full bg-gray-200/50 dark:bg-white/5 rounded-t-sm" />
 
-                  {/* 实际柱子 (渐变 + 发光) */}
                   <motion.div 
                     initial={{ height: 0 }}
                     whileInView={{ height: `${(stat.count / 6000) * 100}%` }}
@@ -185,7 +211,6 @@ export function SectionBento() {
                     )}
                   />
                   
-                  {/* 底部日期数字 */}
                   <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] text-gray-400 font-mono font-medium">
                     {stat.date}
                   </div>
@@ -193,12 +218,10 @@ export function SectionBento() {
                );
              })}
            </div>
-           
-           {/* 底部留一点空间给星期几标签 */}
            <div className="h-2"></div>
         </BentoCard>
         
-        {/* 4. 最新技术笔记 (Latest Thought) - 1x2 (Vertical) */}
+        {/* 4. Latest Post */}
         <BentoCard delay={0.3} className="md:col-span-1 md:row-span-2 flex flex-col justify-between group cursor-pointer hover:border-gray-300 dark:hover:border-white/30">
           <div>
             <div className="text-xs text-purple-600 dark:text-purple-400 font-bold uppercase tracking-wider mb-2">Latest Post</div>
@@ -215,7 +238,7 @@ export function SectionBento() {
           </div>
         </BentoCard>
 
-        {/* 5. 正在折腾 (Now Building) - 1x1 */}
+        {/* 5. Now Building */}
         <BentoCard delay={0.4} className="flex flex-col justify-center items-center text-center">
            <div className="relative w-16 h-16 mb-4 flex items-center justify-center">
              <div className="absolute inset-0 rounded-full border-4 border-gray-100 dark:border-white/10" />
@@ -230,7 +253,7 @@ export function SectionBento() {
            <div className="text-xs text-gray-500 mt-1">Learning in progress</div>
         </BentoCard>
 
-        {/* 6. 快捷代码片段 (Snippet) - 1x1 */}
+        {/* 6. Snippet */}
         <BentoCard delay={0.5} className="md:col-span-1 overflow-hidden font-mono text-xs p-0 bg-[#1e1e1e] border-gray-800 text-gray-300">
            <div className="flex items-center gap-1.5 px-4 py-3 bg-[#252526] border-b border-white/5">
              <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
@@ -251,4 +274,3 @@ export function SectionBento() {
     </section>
   );
 }
-

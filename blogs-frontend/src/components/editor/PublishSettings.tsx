@@ -22,6 +22,7 @@ export default function PublishSettings({
     categoryId: initialSettings?.categoryId,
     coverImage: initialSettings?.coverImage,
     summary: initialSettings?.summary ?? "",
+    isHome: initialSettings?.isHome,
   });
 
   const handleConfirm = () => {
@@ -29,6 +30,7 @@ export default function PublishSettings({
       categoryId: value.categoryId,
       coverImage: value.coverImage || undefined,
       summary: value.summary?.trim() || autoSummary,
+      isHome: value.isHome,
     });
   };
 

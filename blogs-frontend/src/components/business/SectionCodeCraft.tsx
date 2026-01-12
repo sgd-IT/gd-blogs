@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { Code2, Bot, Terminal, Cpu, Scroll, Plus, Minus } from "lucide-react";
 import Marquee from "@/components/ui/marquee";
 import { cn } from "@/lib/utils";
+import { SpotlightCard } from "@/components/ui/spotlight-card";
 
 const skills = [
   "React", "Next.js", "TypeScript", "TailwindCSS", "Node.js", 
@@ -283,23 +284,27 @@ export function SectionCodeCraft() {
             initial={{ x: -50, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true }}
-            className="group relative rounded-3xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 p-8 overflow-hidden hover:shadow-xl dark:hover:border-white/20 transition-all shadow-sm"
+            className="h-full"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent dark:from-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-            
-            <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
-              <div className="space-y-4 flex-1 text-center md:text-left">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-medium">
-                  <Terminal className="w-3 h-3" />
-                  Full Stack
+            <SpotlightCard className="h-full bg-transparent border-none shadow-none" spotlightColor="rgba(59, 130, 246, 0.4)">
+              <div className="relative p-8 h-full bg-white dark:bg-white/5 hover:shadow-xl transition-all">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent dark:from-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                
+                <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+                  <div className="space-y-4 flex-1 text-center md:text-left">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-medium">
+                      <Terminal className="w-3 h-3" />
+                      Full Stack
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Engineering</h3>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                      构建高性能、可扩展的 Web 应用。专注于 React 生态系统与现代前端架构。
+                    </p>
+                  </div>
+                  <AnimatedIcon icon={Code2} color="text-blue-500" delay={0.2} />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Engineering</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
-                  构建高性能、可扩展的 Web 应用。专注于 React 生态系统与现代前端架构。
-                </p>
               </div>
-              <AnimatedIcon icon={Code2} color="text-blue-500" delay={0.2} />
-            </div>
+            </SpotlightCard>
           </motion.div>
 
           {/* 右侧卡片：AI */}
@@ -307,23 +312,27 @@ export function SectionCodeCraft() {
             initial={{ x: 50, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true }}
-            className="group relative rounded-3xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 p-8 overflow-hidden hover:shadow-xl dark:hover:border-white/20 transition-all shadow-sm"
+            className="h-full"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-transparent dark:from-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-            
-            <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
-              <div className="space-y-4 flex-1 text-center md:text-left">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-500/10 border border-purple-100 dark:border-purple-500/20 text-purple-600 dark:text-purple-400 text-xs font-medium">
-                   <Bot className="w-3 h-3" />
-                   AI Powered
+            <SpotlightCard className="h-full bg-transparent border-none shadow-none" spotlightColor="rgba(168, 85, 247, 0.4)">
+              <div className="relative p-8 h-full bg-white dark:bg-white/5 hover:shadow-xl transition-all">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-transparent dark:from-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                
+                <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+                  <div className="space-y-4 flex-1 text-center md:text-left">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-500/10 border border-purple-100 dark:border-purple-500/20 text-purple-600 dark:text-purple-400 text-xs font-medium">
+                       <Bot className="w-3 h-3" />
+                       AI Powered
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Intelligence</h3>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                       探索 LLM 应用开发。致力于将人工智能集成到直观的用户体验中。
+                    </p>
+                  </div>
+                  <AnimatedIcon icon={Cpu} color="text-purple-500" delay={0.4} />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Intelligence</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
-                   探索 LLM 应用开发。致力于将人工智能集成到直观的用户体验中。
-                </p>
               </div>
-              <AnimatedIcon icon={Cpu} color="text-purple-500" delay={0.4} />
-            </div>
+            </SpotlightCard>
           </motion.div>
         </div>
 

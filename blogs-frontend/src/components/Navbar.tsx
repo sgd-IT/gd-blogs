@@ -79,21 +79,45 @@ export default function Navbar() {
           {/* User Status Section (Desktop) */}
           <div className="ml-4 pl-4 border-l border-gray-200 dark:border-gray-700">
             {loginUser ? (
-              <div className="flex items-center gap-3">
-                {loginUser.userAvatar ? (
-                  <img
-                    src={loginUser.userAvatar}
-                    alt={loginUser.userName}
-                    className="h-8 w-8 rounded-full object-cover border border-gray-200"
-                  />
-                ) : (
-                  <div className="h-8 w-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-                    <User className="h-4 w-4 text-gray-500" />
-                  </div>
-                )}
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                  {loginUser.userName}
-                </span>
+              <div 
+                className="relative group"
+              >
+                <button className="flex items-center gap-3 py-2 outline-none">
+                  {loginUser.userAvatar ? (
+                    <img
+                      src={loginUser.userAvatar}
+                      alt={loginUser.userName}
+                      className="h-8 w-8 rounded-full object-cover border border-gray-200"
+                    />
+                  ) : (
+                    <div className="h-8 w-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                      <User className="h-4 w-4 text-gray-500" />
+                    </div>
+                  )}
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                    {loginUser.userName}
+                  </span>
+                </button>
+
+                {/* 下拉菜单 */}
+                <div className="absolute right-0 top-full mt-0 w-32 bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 rounded-lg shadow-lg overflow-hidden py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right z-50">
+                  <Link 
+                    href="/user/center" 
+                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-zinc-800"
+                  >
+                    个人中心
+                  </Link>
+                  <button
+                    onClick={async () => {
+                       await fetch("/api/user/logout", { method: "POST" });
+                       setLoginUser(null);
+                       window.location.href = "/";
+                    }}
+                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+                  >
+                    退出登录
+                  </button>
+                </div>
               </div>
             ) : (
               <Link

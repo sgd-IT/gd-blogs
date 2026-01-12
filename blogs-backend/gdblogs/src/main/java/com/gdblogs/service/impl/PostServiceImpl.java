@@ -67,6 +67,25 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
                 throw new BusinessException(ErrorCode.PARAMS_ERROR, "内容过长");
             }
         }
+        // 校验首页推荐数量（最多 5 篇）
+        if (ObjectUtil.equal(post.getIsHome(), 1)) {
+            long count = this.count(new QueryWrapper<Post>().eq("isHome", 1));
+            if (add) {
+                // 新增时，如果已有 >=5 篇，则报错
+                if (count >= 5) {
+                    throw new BusinessException(ErrorCode.OPERATION_ERROR, "首页推荐文章最多 5 篇，请先取消其他文章的推荐");
+                }
+            } else {
+                // 更新时，如果原本不是推荐，现在想改成推荐，且名额已满，则报错
+                if (post.getId() != null) {
+                    Post oldPost = this.getById(post.getId());
+                    // 如果旧数据里 isHome!=1 (即 0 或 null)，说明是这次新勾选的
+                    if ((oldPost == null || !ObjectUtil.equal(oldPost.getIsHome(), 1)) && count >= 5) {
+                         throw new BusinessException(ErrorCode.OPERATION_ERROR, "首页推荐文章最多 5 篇，请先取消其他文章的推荐");
+                    }
+                }
+            }
+        }
     }
 
     /**

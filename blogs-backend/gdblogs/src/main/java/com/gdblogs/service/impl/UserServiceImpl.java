@@ -10,6 +10,7 @@ import com.gdblogs.exception.ErrorCode;
 import com.gdblogs.mapper.UserMapper;
 import com.gdblogs.model.dto.user.UserLoginRequest;
 import com.gdblogs.model.dto.user.UserRegisterRequest;
+import com.gdblogs.model.dto.user.UserUpdateMyRequest;
 import com.gdblogs.model.entity.User;
 import com.gdblogs.model.enums.UserRoleEnum;
 import com.gdblogs.model.vo.LoginUserVO;
@@ -69,6 +70,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "注册失败，数据库错误");
         }
         return user.getId();
+    }
+
+    @Override
+    public boolean updateMyUser(UserUpdateMyRequest userUpdateMyRequest, HttpServletRequest request) {
+        // 1. 获取当前登录用户
+        LoginUserVO loginUser = getLoginUser(request);
+        User user = new User();
+        user.setId(loginUser.getId());
+        user.setUserName(userUpdateMyRequest.getUserName());
+        user.setUserAvatar(userUpdateMyRequest.getUserAvatar());
+        user.setUserProfile(userUpdateMyRequest.getUserProfile());
+        // 2. 更新数据库
+        return this.updateById(user);
     }
 
     @Override

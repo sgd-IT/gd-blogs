@@ -29,4 +29,4 @@ mybatis-plus:
     map-underscore-to-camel-case: false
 
 file:
-  upload-dir: C:/Users/Administrator/Desktop/gd-blogs/uploads/images/
+  upload-dir: C:/Users/Administrator/Desktop/gd-blogs/blogs-backend/gdblogs/src/main/resources/images/

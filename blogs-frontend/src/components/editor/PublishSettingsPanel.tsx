@@ -114,6 +114,24 @@ export default function PublishSettingsPanel({ value, autoSummary, onChange }: P
         </p>
       </div>
 
+      {/* 首页推荐设置 */}
+      <div className="flex items-center justify-between rounded-lg border border-gray-200 p-4 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+        <div>
+          <label className="text-sm font-medium text-gray-900 dark:text-white">
+            设为首页推荐
+          </label>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+            将文章固定在首页展示，最多可设置 5 篇
+          </p>
+        </div>
+        <input
+          type="checkbox"
+          checked={value.isHome === 1}
+          onChange={(e) => onChange({ ...value, isHome: e.target.checked ? 1 : 0 })}
+          className="h-5 w-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+        />
+      </div>
+
       {/* 文章摘要 */}
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">

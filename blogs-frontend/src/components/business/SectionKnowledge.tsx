@@ -166,29 +166,50 @@ export function SectionKnowledge() {
   useEffect(() => {
     const fetchHomeNotes = async () => {
       try {
-        const res = await listPostVoByPage({
-          pageSize: 5,
+        const MAX_DISPLAY = 5;
+
+        // 1. 先查手动标记为 "isHome=1" 的文章
+        const resHome = await listPostVoByPage({
+          pageSize: MAX_DISPLAY,
           isHome: 1,
-          sortField: "createTime",
+          sortField: "updateTime", // 推荐的按更新时间或创建时间排都可以
           sortOrder: "descend",
         });
 
-        if (res.code === 0 && res.data?.records) {
-          const records = res.data.records as PostVO[];
-          const mappedNotes: NoteCard[] = records.map((post) => ({
-            title: post.title,
-            summary:
-              post.summary ||
-              (() => {
-                const text = stripRichText(post.content);
-                return text.length > 60 ? `${text.slice(0, 60)}...` : text;
-              })(),
-            category: post.tagList?.[0] || "Blog",
-            lastUpdated: post.createTime?.substring(0, 10) ?? "",
-            href: `/post/${post.id}`,
-          }));
-          setNotes(mappedNotes);
+        let finalPosts = resHome.data?.records || [];
+
+        // 2. 如果不足 5 篇，查询最新文章进行补齐
+        if (finalPosts.length < MAX_DISPLAY) {
+          const resLatest = await listPostVoByPage({
+            // 多查几篇以防重复
+            pageSize: MAX_DISPLAY + finalPosts.length,
+            sortField: "createTime",
+            sortOrder: "descend",
+          });
+
+          const latestPosts = resLatest.data?.records || [];
+
+          // 使用 Set 记录已存在的 ID，避免重复
+          const existingIds = new Set(finalPosts.map(p => p.id));
+
+          for (const post of latestPosts) {
+            if (finalPosts.length >= MAX_DISPLAY) break;
+            if (!existingIds.has(post.id)) {
+              finalPosts.push(post);
+              existingIds.add(post.id);
+            }
+          }
         }
+
+        // 3. 映射为 UI 组件需要的格式
+        const mappedNotes: NoteCard[] = finalPosts.map((post) => ({
+             title: post.title,
+             summary: post.summary || stripRichText(post.content).slice(0, 60),
+             category: post.tagList?.[0] || "Blog",
+             lastUpdated: post.createTime?.substring(0, 10) ?? "",
+             href: `/post/${post.id}`,
+        }));
+        setNotes(mappedNotes);
       } catch (error) {
         console.error("Failed to fetch home notes:", error);
       }

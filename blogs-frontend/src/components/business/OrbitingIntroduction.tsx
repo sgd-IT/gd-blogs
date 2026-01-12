@@ -126,9 +126,13 @@ const OrbitingIntroduction = () => {
   const mouseX = useSpring(x, { stiffness: 150, damping: 15 });
   const mouseY = useSpring(y, { stiffness: 150, damping: 15 });
 
-  // 根据鼠标位置计算旋转角度
+  // 1. 倾斜：根据鼠标位置计算旋转角度
   const rotateX = useTransform(mouseY, [-0.5, 0.5], ["15deg", "-15deg"]);
   const rotateY = useTransform(mouseX, [-0.5, 0.5], ["-15deg", "15deg"]);
+
+  // 2. 磁吸：根据鼠标位置计算位移
+  const magneticX = useTransform(mouseX, [-0.5, 0.5], [-40, 40]);
+  const magneticY = useTransform(mouseY, [-0.5, 0.5], [-40, 40]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -193,7 +197,7 @@ const OrbitingIntroduction = () => {
         ))}
       </div>
 
-      {/* 中心卡片 - 3D 效果 */}
+      {/* 中心卡片 - 3D 效果 + 磁吸 */}
       <div className="z-10 relative" style={{ perspective: 1000 }}>
         <motion.div
             onMouseMove={handleMouseMove}
@@ -201,6 +205,8 @@ const OrbitingIntroduction = () => {
             style={{
                 rotateX,
                 rotateY,
+                x: magneticX,
+                y: magneticY,
                 transformStyle: "preserve-3d",
             }}
             className="relative flex h-auto w-[280px] flex-col items-start justify-center rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur-md shadow-xl dark:border-gray-700/20 dark:bg-black/10 cursor-pointer"

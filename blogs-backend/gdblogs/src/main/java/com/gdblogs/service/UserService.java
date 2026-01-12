@@ -3,6 +3,7 @@ package com.gdblogs.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.gdblogs.model.dto.user.UserLoginRequest;
 import com.gdblogs.model.dto.user.UserRegisterRequest;
+import com.gdblogs.model.dto.user.UserUpdateMyRequest;
 import com.gdblogs.model.entity.User;
 import com.gdblogs.model.vo.LoginUserVO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,6 +29,15 @@ public interface UserService extends IService<User> {
      * @return 脱敏后的用户信息
      */
     LoginUserVO userLogin(UserLoginRequest userLoginRequest, HttpServletRequest request);
+
+    /**
+     * 更新个人信息
+     *
+     * @param userUpdateMyRequest 更新请求
+     * @param request             HttpServletRequest
+     * @return 是否成功
+     */
+    boolean updateMyUser(UserUpdateMyRequest userUpdateMyRequest, HttpServletRequest request);
 
     /**
      * 获取当前登录用户
