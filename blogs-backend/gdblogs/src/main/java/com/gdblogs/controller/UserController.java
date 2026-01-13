@@ -1,7 +1,9 @@
 package com.gdblogs.controller;
 
+import com.gdblogs.annotation.AuthCheck;
 import com.gdblogs.common.BaseResponse;
 import com.gdblogs.common.ResultUtils;
+import com.gdblogs.constant.UserConstant;
 import com.gdblogs.exception.BusinessException;
 import com.gdblogs.exception.ErrorCode;
 import com.gdblogs.model.dto.user.UserLoginRequest;
@@ -45,6 +47,7 @@ public class UserController {
      * @param request             HttpServletRequest
      * @return 是否成功
      */
+    @AuthCheck(mustRole = UserConstant.DEFAULT_ROLE)
     @PostMapping("/update/my")
     public BaseResponse<Boolean> updateMyUser(@RequestBody UserUpdateMyRequest userUpdateMyRequest,
                                               HttpServletRequest request) {
@@ -77,6 +80,7 @@ public class UserController {
      * @param request HttpServletRequest
      * @return 脱敏后的用户信息
      */
+    @AuthCheck(mustRole = UserConstant.DEFAULT_ROLE)
     @GetMapping("/get/login")
     public BaseResponse<LoginUserVO> getLoginUser(HttpServletRequest request) {
         LoginUserVO loginUser = userService.getLoginUser(request);
@@ -89,6 +93,7 @@ public class UserController {
      * @param request HttpServletRequest
      * @return 是否成功
      */
+    @AuthCheck(mustRole = UserConstant.DEFAULT_ROLE)
     @PostMapping("/logout")
     public BaseResponse<Boolean> userLogout(HttpServletRequest request) {
         boolean result = userService.userLogout(request);

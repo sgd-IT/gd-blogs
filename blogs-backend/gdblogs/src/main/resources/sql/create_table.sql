@@ -58,3 +58,18 @@ create table if not exists category
     isDelete    tinyint  default 0                 not null comment '是否删除',
     unique key uk_name (name)
 ) comment '分类' collate = utf8mb4_unicode_ci;
+
+-- 评论表
+create table if not exists comment
+(
+    id          bigint auto_increment comment 'id' primary key,
+    content     text                               null comment '评论内容',
+    postId      bigint                             not null comment '帖子id',
+    userId      bigint                             not null comment '评论用户id',
+    parentId    bigint                             null comment '父评论id（用于回复）',
+    createTime  datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    updateTime  datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    isDelete    tinyint  default 0                 not null comment '是否删除',
+    index idx_postId (postId),
+    index idx_userId (userId)
+) comment '评论' collate = utf8mb4_unicode_ci;

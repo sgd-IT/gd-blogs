@@ -10,6 +10,7 @@ import MarkdownToc from "@/components/business/MarkdownToc";
 import type { ReactElement, ReactNode } from "react";
 import { isValidElement } from "react";
 import rehypeHighlight from "rehype-highlight";
+import CommentSection from "@/components/business/CommentSection";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8124";
 
@@ -261,6 +262,11 @@ export default function PostDetailPage() {
               </div>
             )}
           </article>
+
+          {/* 评论区 */}
+          <div className="lg:col-start-2">
+            <CommentSection postId={Number(postId)} currentUserId={currentUserId} />
+          </div>
           
           {/* 右侧占位，用于保证中间文章居中 */}
           <div className="hidden lg:block"></div>

@@ -1,7 +1,9 @@
 package com.gdblogs.controller;
 
+import com.gdblogs.annotation.AuthCheck;
 import com.gdblogs.common.BaseResponse;
 import com.gdblogs.common.ResultUtils;
+import com.gdblogs.constant.UserConstant;
 import com.gdblogs.exception.BusinessException;
 import com.gdblogs.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +33,7 @@ public class FileController {
      * @param file 图片文件
      * @return 图片访问 URL
      */
+    @AuthCheck(mustRole = UserConstant.DEFAULT_ROLE)
     @PostMapping("/upload/image")
     public BaseResponse<String> uploadImage(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {

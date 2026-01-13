@@ -176,7 +176,7 @@ export function SectionKnowledge() {
           sortOrder: "descend",
         });
 
-        let finalPosts = resHome.data?.records || [];
+        const finalPosts = resHome.data?.records || [];
 
         // 2. 如果不足 5 篇，查询最新文章进行补齐
         if (finalPosts.length < MAX_DISPLAY) {

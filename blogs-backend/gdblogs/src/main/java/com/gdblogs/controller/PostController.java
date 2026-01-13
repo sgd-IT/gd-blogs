@@ -2,8 +2,10 @@ package com.gdblogs.controller;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.gdblogs.annotation.AuthCheck;
 import com.gdblogs.common.BaseResponse;
 import com.gdblogs.common.DeleteRequest;
+import com.gdblogs.constant.UserConstant;
 import com.gdblogs.exception.ErrorCode;
 import com.gdblogs.common.ResultUtils;
 import com.gdblogs.exception.BusinessException;
@@ -47,6 +49,7 @@ public class PostController {
      * @param request
      * @return
      */
+    @AuthCheck(mustRole = UserConstant.DEFAULT_ROLE)
     @PostMapping("/add")
     public BaseResponse<Long> addPost(@RequestBody PostAddRequest postAddRequest, HttpServletRequest request) {
         if (postAddRequest == null) {
@@ -79,6 +82,7 @@ public class PostController {
      * @param request
      * @return
      */
+    @AuthCheck(mustRole = UserConstant.DEFAULT_ROLE)
     @PostMapping("/delete")
     public BaseResponse<Boolean> deletePost(@RequestBody DeleteRequest deleteRequest, HttpServletRequest request) {
         if (deleteRequest == null || deleteRequest.getId() <= 0) {
@@ -106,6 +110,7 @@ public class PostController {
      * @param postUpdateRequest
      * @return
      */
+    @AuthCheck(mustRole=UserConstant.ADMIN_ROLE)
     @PostMapping("/update")
     public BaseResponse<Boolean> updatePost(@RequestBody PostUpdateRequest postUpdateRequest) {
         if (postUpdateRequest == null || postUpdateRequest.getId() <= 0) {
@@ -171,6 +176,7 @@ public class PostController {
      * @param request
      * @return
      */
+    @AuthCheck(mustRole = UserConstant.DEFAULT_ROLE)
     @PostMapping("/my/list/page/vo")
     public BaseResponse<Page<PostVO>> listMyPostVOByPage(@RequestBody PostQueryRequest postQueryRequest,
                                                          HttpServletRequest request) {
@@ -200,6 +206,7 @@ public class PostController {
      * @param request
      * @return
      */
+    @AuthCheck(mustRole = UserConstant.DEFAULT_ROLE)
     @PostMapping("/edit")
     public BaseResponse<Boolean> editPost(@RequestBody PostUpdateRequest postUpdateRequest, HttpServletRequest request) {
         if (postUpdateRequest == null || postUpdateRequest.getId() <= 0) {
