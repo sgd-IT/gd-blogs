@@ -15,6 +15,7 @@ import com.gdblogs.model.entity.Comment;
 import com.gdblogs.model.entity.User;
 import com.gdblogs.model.vo.CommentVO;
 import com.gdblogs.service.CommentService;
+import com.gdblogs.service.NotificationService;
 import com.gdblogs.service.UserService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,6 +37,9 @@ public class CommentController {
     @Resource
     private UserService userService;
 
+    @Resource
+    private NotificationService notificationService;
+
     /**
      * 创建评论
      */
@@ -55,6 +59,14 @@ public class CommentController {
         commentService.validComment(comment, true);
         boolean result = commentService.save(comment);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
+        // 触发通知（最小可用版：评论/回复）
+        try {
+            notificationService.createByComment(comment, loginUser);
+        } catch (Exception e) {
+            // 通知不应影响主流程
+            log.warn("create notification failed, commentId={}, postId={}, parentId={}",
+                    comment.getId(), comment.getPostId(), comment.getParentId(), e);
+        }
         return ResultUtils.success(comment.getId());
     }
 

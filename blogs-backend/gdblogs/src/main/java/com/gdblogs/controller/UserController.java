@@ -80,7 +80,7 @@ public class UserController {
      * @param request HttpServletRequest
      * @return 脱敏后的用户信息
      */
-    @AuthCheck(mustRole = UserConstant.DEFAULT_ROLE)
+    @AuthCheck(mustRole = UserConstant.GUEST_ROLE)
     @GetMapping("/get/login")
     public BaseResponse<LoginUserVO> getLoginUser(HttpServletRequest request) {
         LoginUserVO loginUser = userService.getLoginUser(request);
@@ -93,7 +93,7 @@ public class UserController {
      * @param request HttpServletRequest
      * @return 是否成功
      */
-    @AuthCheck(mustRole = UserConstant.DEFAULT_ROLE)
+    @AuthCheck(mustRole = UserConstant.GUEST_ROLE)
     @PostMapping("/logout")
     public BaseResponse<Boolean> userLogout(HttpServletRequest request) {
         boolean result = userService.userLogout(request);

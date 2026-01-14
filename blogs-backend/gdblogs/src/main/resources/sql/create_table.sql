@@ -73,3 +73,21 @@ create table if not exists comment
     index idx_postId (postId),
     index idx_userId (userId)
 ) comment '评论' collate = utf8mb4_unicode_ci;
+
+-- 通知表（站内通知）
+create table if not exists notification
+(
+    id          bigint auto_increment comment 'id' primary key,
+    type        varchar(32)                        not null comment '通知类型：comment/reply/thumb/favour/system',
+    content     varchar(1024)                      not null comment '通知内容（展示文案）',
+    receiverId  bigint                             not null comment '接收者用户 id',
+    senderId    bigint                             not null comment '触发者用户 id',
+    postId      bigint                             null comment '关联帖子 id',
+    commentId   bigint                             null comment '关联评论 id',
+    status      tinyint  default 0                 not null comment '状态：0未读/1已读',
+    createTime  datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    updateTime  datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    isDelete    tinyint  default 0                 not null comment '是否删除',
+    index idx_receiver_status_time (receiverId, status, createTime),
+    index idx_receiver_time (receiverId, createTime)
+) comment '通知' collate = utf8mb4_unicode_ci;

@@ -53,7 +53,7 @@ export default function UserLoginPage() {
               value={userAccount}
               onChange={(e) => setUserAccount(e.target.value)}
               className="mt-2 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-purple-500 dark:border-gray-800 dark:bg-black dark:text-white"
-              placeholder="请输入账号"
+              placeholder="快速体验：user"
               autoComplete="username"
             />
           </div>
@@ -65,7 +65,7 @@ export default function UserLoginPage() {
               value={userPassword}
               onChange={(e) => setUserPassword(e.target.value)}
               className="mt-2 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-purple-500 dark:border-gray-800 dark:bg-black dark:text-white"
-              placeholder="请输入密码"
+              placeholder="快速体验：12345678"
               autoComplete="current-password"
             />
           </div>

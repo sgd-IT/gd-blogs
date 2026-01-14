@@ -25,6 +25,7 @@ export interface PostVO {
   favourNum?: number;
   userId?: number;
   user?: LoginUserVO;
+  isHome?: number;
 }
 
 // 分页响应

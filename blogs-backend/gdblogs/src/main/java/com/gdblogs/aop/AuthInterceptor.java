@@ -71,6 +71,19 @@ public class AuthInterceptor {
                     throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
                 }
             }
+            // 如果要求的权限是 "guest"（游客，只读），通常 user/admin 也能访问
+            else if (UserRoleEnum.GUEST.getValue().equals(mustRole)) {
+                if (!UserRoleEnum.GUEST.getValue().equals(userRole)
+                        && !UserRoleEnum.USER.getValue().equals(userRole)
+                        && !UserRoleEnum.ADMIN.getValue().equals(userRole)) {
+                    throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
+                }
+            }
+            // 未知角色：默认拒绝，避免误放行
+            else {
+                throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
+            }
+            
         }
 
         // 如果 mustRole 为空，或者校验通过，继续执行原方法

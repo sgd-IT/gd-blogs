@@ -294,6 +294,7 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
                 categoryId: post.categoryId,
                 coverImage: post.coverImage,
                 summary: post.summary,
+                isHome: post.isHome,
               });
               const serverContent = post.content || "";
               if (looksLikeHtml(serverContent)) {
@@ -313,6 +314,7 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
               categoryId: post.categoryId,
               coverImage: post.coverImage,
               summary: post.summary,
+              isHome: post.isHome,
             });
             const serverContent = post.content || "";
             if (looksLikeHtml(serverContent)) {
@@ -395,6 +397,7 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
             categoryId: settings.categoryId,
             coverImage: settings.coverImage,
             summary: finalSummary,
+            isHome: settings.isHome,
           }
         : {
             id: Number(postId),
@@ -404,6 +407,7 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
             categoryId: settings.categoryId,
             coverImage: settings.coverImage,
             summary: finalSummary,
+            isHome: settings.isHome,
           };
 
       const res = await fetch(url, {

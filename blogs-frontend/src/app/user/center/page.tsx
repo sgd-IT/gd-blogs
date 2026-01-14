@@ -93,7 +93,7 @@ export default function UserCenterPage() {
   }
 
   return (
-    <div className="container mx-auto max-w-2xl px-4 py-12">
+    <div className="container mx-auto max-w-2xl px-4 pt-24 pb-12">
       <h1 className="text-3xl font-bold mb-8">个人中心</h1>
       
       <div className="space-y-6 bg-white dark:bg-zinc-900 p-6 rounded-lg border dark:border-zinc-800 shadow-sm">

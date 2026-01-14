@@ -6,7 +6,8 @@ package com.gdblogs.model.enums;
 public enum UserRoleEnum {
 
     USER("用户", "user"),
-    ADMIN("管理员", "admin");
+    ADMIN("管理员", "admin"),
+    GUEST("游客", "guest");
 
     private final String text;
 
