@@ -4,6 +4,7 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { MapPin, Calendar, Camera, Activity, Mountain, Plane } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ChinaTravelMap from "./ChinaTravelMap";
 
 // --- Types & Data ---
 
@@ -288,6 +289,8 @@ export default function LifeTimeline() {
                </div>
            </div>
         </div>
+
+        <ChinaTravelMap />
       </div>
     </section>
   );

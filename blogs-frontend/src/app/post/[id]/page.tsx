@@ -56,6 +56,7 @@ export default function PostDetailPage() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [post, setPost] = useState<PostVO | null>(null);
   const [currentUserId, setCurrentUserId] = useState<number | null>(null);
+  const [currentUserRole, setCurrentUserRole] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -65,7 +66,8 @@ export default function PostDetailPage() {
         });
         const data = await res.json();
         if (data.code === 0 && data.data) {
-          setCurrentUserId(data.data.id);
+          setCurrentUserId(data.data.id ?? null);
+          setCurrentUserRole(data.data.userRole ?? null);
         }
       } catch (err) {
         console.error("获取用户信息失败", err);
@@ -96,7 +98,9 @@ export default function PostDetailPage() {
     void fetchPost();
   }, [postId]);
 
-  const isAuthor = currentUserId && post?.userId === currentUserId;
+  const isAuthor = currentUserId != null && post?.userId === currentUserId;
+  const isAdmin = currentUserRole === "admin";
+  const canEdit = isAuthor || isAdmin;
 
   if (loading) {
     return (
@@ -250,8 +254,8 @@ export default function PostDetailPage() {
               </div>
             )}
 
-            {/* 操作按钮（仅作者可见） */}
-            {isAuthor && (
+            {/* 操作按钮（作者或管理员可见） */}
+            {canEdit && (
               <div className="mt-8 flex gap-3 border-t border-gray-200 pt-6 dark:border-gray-800">
                 <Link
                   href={`/post/edit/${post.id}`}

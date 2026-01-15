@@ -5,30 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ad046f9-cfd0-459d-8283-d5ffd70d4720" name="更改" comment="前端 (Frontend)&#10;调整了个人中心布局&#10;生活第三分区修改了布局，按时间轴分布，数据写死&#10;&#10;后端：&#10;添加了游客guest权限校验，添加了一个游客体验账号&#10;创建了notification表&#10;添加了消息通知功能，如触发通知">
-      <change afterPath="$PROJECT_DIR$/.cursor/debug.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/controller/NotificationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/mapper/NotificationMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/model/dto/notification/NotificationQueryRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/model/dto/notification/NotificationReadRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/model/entity/Notification.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/model/enums/NotificationTypeEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/model/vo/NotificationVO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/service/NotificationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/service/impl/NotificationServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blogs-frontend/src/components/business/LifeTimeline.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/aop/AuthInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/aop/AuthInterceptor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/constant/UserConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/constant/UserConstant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/controller/CommentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/model/enums/UserRoleEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/java/com/gdblogs/model/enums/UserRoleEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/resources/sql/create_table.sql" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/resources/sql/create_table.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/app/user/center/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/app/user/center/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/app/user/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/app/user/login/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/business/SectionKnowledge.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/components/business/SectionKnowledge.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/editor/TiptapEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/components/editor/TiptapEditor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/types/post.ts" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/types/post.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/app/post/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/app/post/[id]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/components/Navbar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/services/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/services/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/types/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/types/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,7 +127,7 @@
       <workItem from="1768181541787" duration="47000" />
       <workItem from="1768198170249" duration="2127000" />
       <workItem from="1768275420932" duration="1642000" />
-      <workItem from="1768373804643" duration="2248000" />
+      <workItem from="1768373804643" duration="5557000" />
     </task>
     <task id="LOCAL-00001" summary="后端：用户的登录注册，文章的CRUD&#10;前端：添加了导航栏右侧的登录状态">
       <option name="closed" value="true" />
@@ -212,7 +193,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768294956413</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="前端 (Frontend)&#10;调整了个人中心布局&#10;生活第三分区修改了布局，按时间轴分布，数据写死&#10;&#10;后端：&#10;添加了游客guest权限校验，添加了一个游客体验账号&#10;创建了notification表&#10;添加了消息通知功能，如触发通知">
+      <option name="closed" value="true" />
+      <created>1768384459621</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1768384459621</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -229,7 +218,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="master" />
+                        <option value="origin/master" />
                       </list>
                     </value>
                   </entry>

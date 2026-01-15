@@ -107,6 +107,12 @@ export default function Navbar() {
                   >
                     个人中心
                   </Link>
+                  <Link
+                    href="/user/notifications"
+                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-zinc-800"
+                  >
+                    通知中心
+                  </Link>
                   <button
                     onClick={async () => {
                        await fetch("/api/user/logout", { method: "POST" });
@@ -191,6 +197,15 @@ export default function Navbar() {
                 </Link>
               )}
             </div>
+            {loginUser ? (
+              <Link
+                href="/user/notifications"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-sm font-medium text-gray-600 hover:text-purple-600 dark:text-gray-300"
+              >
+                通知中心
+              </Link>
+            ) : null}
           </div>
         </div>
       )}
