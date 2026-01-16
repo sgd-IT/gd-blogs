@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2ad046f9-cfd0-459d-8283-d5ffd70d4720" name="更改" comment="前端 (Frontend)&#10;调整了个人中心布局&#10;生活第三分区修改了布局，按时间轴分布，数据写死&#10;&#10;后端：&#10;添加了游客guest权限校验，添加了一个游客体验账号&#10;创建了notification表&#10;添加了消息通知功能，如触发通知">
+    <list default="true" id="2ad046f9-cfd0-459d-8283-d5ffd70d4720" name="更改" comment="前端 (Frontend)&#10;添加了通知中心的ui&#10;在第三分区挂载了中国地图的组件&#10;修复了前端无法让管理员编辑页面返回首页展示的bug&#10;&#10;后端：&#10;无">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/app/post/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/app/post/[id]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/components/Navbar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/services/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/services/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/types/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/types/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/resources/sql/create_table.sql" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-backend/gdblogs/src/main/resources/sql/create_table.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs-frontend/src/components/business/ChinaTravelMap.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/blogs-frontend/src/components/business/ChinaTravelMap.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,33 +41,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1&quot;: &quot;true&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Administrator/Desktop/gd-blogs&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Administrator\\Desktop\\gd-blogs\\blogs-frontend\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "master",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Administrator/Desktop/gd-blogs",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.build.executor": "Run",
+    "npm.dev.executor": "Run",
+    "project.structure.last.edited": "模块",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "to.speed.mode.migration.done": "true",
+    "ts.external.directory.path": "C:\\Users\\Administrator\\Desktop\\gd-blogs\\blogs-frontend\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager" selected="npm.dev">
+}]]></component>
+  <component name="RunManager" selected="npm.build">
     <configuration name="Next.js: 调试客户端" type="JavascriptDebugType" uri="http://localhost:3000/">
       <method v="2" />
     </configuration>
@@ -77,6 +78,16 @@
       <command value="run" />
       <scripts>
         <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/blogs-frontend/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
       </scripts>
       <node-interpreter value="project" />
       <envs />
@@ -94,6 +105,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.build" />
         <item itemvalue="npm.dev" />
       </list>
     </recent_temporary>
@@ -128,6 +140,7 @@
       <workItem from="1768198170249" duration="2127000" />
       <workItem from="1768275420932" duration="1642000" />
       <workItem from="1768373804643" duration="5557000" />
+      <workItem from="1768468983035" duration="13740000" />
     </task>
     <task id="LOCAL-00001" summary="后端：用户的登录注册，文章的CRUD&#10;前端：添加了导航栏右侧的登录状态">
       <option name="closed" value="true" />
@@ -201,7 +214,23 @@
       <option name="project" value="LOCAL" />
       <updated>1768384459621</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="前端 (Frontend)&#10;添加了通知中心的ui&#10;在第三分区挂载了中国地图的组件&#10;修复了前端无法让管理员编辑页面返回首页展示的bug&#10;&#10;后端：&#10;无">
+      <option name="closed" value="true" />
+      <created>1768469125280</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1768469125280</updated>
+    </task>
+    <task id="LOCAL-00011" summary="前端 (Frontend)&#10;添加了通知中心的ui&#10;在第三分区挂载了中国地图的组件&#10;修复了前端无法让管理员编辑页面返回首页展示的bug&#10;&#10;后端：&#10;无">
+      <option name="closed" value="true" />
+      <created>1768525626027</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1768525626027</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -239,6 +268,7 @@
     <MESSAGE value="前端 (Frontend)&#10;在用户登录状态添加了下拉框，在下拉框中添加了个人中心页面&#10;&#10;后端：&#10;添加个人中心，上传个人头像&#10;更新个人信息方法&#10;&#10;在文章表中添加了isHome字段来判断文章是否展示在首页，最多5篇" />
     <MESSAGE value="前端 (Frontend)&#10;无&#10;&#10;后端：&#10;添加了评论功能Comment&#10;应用了了权限校验" />
     <MESSAGE value="前端 (Frontend)&#10;调整了个人中心布局&#10;生活第三分区修改了布局，按时间轴分布，数据写死&#10;&#10;后端：&#10;添加了游客guest权限校验，添加了一个游客体验账号&#10;创建了notification表&#10;添加了消息通知功能，如触发通知" />
-    <option name="LAST_COMMIT_MESSAGE" value="前端 (Frontend)&#10;调整了个人中心布局&#10;生活第三分区修改了布局，按时间轴分布，数据写死&#10;&#10;后端：&#10;添加了游客guest权限校验，添加了一个游客体验账号&#10;创建了notification表&#10;添加了消息通知功能，如触发通知" />
+    <MESSAGE value="前端 (Frontend)&#10;添加了通知中心的ui&#10;在第三分区挂载了中国地图的组件&#10;修复了前端无法让管理员编辑页面返回首页展示的bug&#10;&#10;后端：&#10;无" />
+    <option name="LAST_COMMIT_MESSAGE" value="前端 (Frontend)&#10;添加了通知中心的ui&#10;在第三分区挂载了中国地图的组件&#10;修复了前端无法让管理员编辑页面返回首页展示的bug&#10;&#10;后端：&#10;无" />
   </component>
 </project>

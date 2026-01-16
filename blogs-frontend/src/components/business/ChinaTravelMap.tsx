@@ -50,11 +50,13 @@ const VIEWBOX_HEIGHT = 640;
 function collectCoords(geometry: GeoFeature["geometry"]) {
   const coords: [number, number][] = [];
   if (geometry.type === "Polygon") {
-    geometry.coordinates.forEach((ring) => {
+    const rings = geometry.coordinates as number[][][];
+    rings.forEach((ring) => {
       ring.forEach((point) => coords.push([point[0], point[1]]));
     });
   } else {
-    geometry.coordinates.forEach((polygon) => {
+    const polygons = geometry.coordinates as number[][][][];
+    polygons.forEach((polygon) => {
       polygon.forEach((ring) => {
         ring.forEach((point) => coords.push([point[0], point[1]]));
       });
@@ -77,9 +79,11 @@ function buildPath(
   };
 
   if (geometry.type === "Polygon") {
-    geometry.coordinates.forEach(handleRing);
+    const rings = geometry.coordinates as number[][][];
+    rings.forEach(handleRing);
   } else {
-    geometry.coordinates.forEach((polygon) => {
+    const polygons = geometry.coordinates as number[][][][];
+    polygons.forEach((polygon) => {
       polygon.forEach(handleRing);
     });
   }
