@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import OrbitingIntroduction from "@/components/business/OrbitingIntroduction";
+import OrbitingIntroductionDesktop from "@/components/desktop/OrbitingIntroduction";
+import OrbitingIntroductionMobile from "@/components/mobile/OrbitingIntroduction";
 import { SectionCodeCraft } from "@/components/business/SectionCodeCraft";
 import { SectionBento } from "@/components/business/SectionBento";
 import { SectionKnowledge } from "@/components/business/SectionKnowledge";
 import LifeTimeline from "@/components/business/LifeTimeline";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useIsMobile } from "@/lib/useMediaQuery";
 
 // 封装一个视差组件 (给 Hero 用)
 interface ParallaxSectionProps {
@@ -58,6 +60,7 @@ function ScrollRevealSection({ children, className }: ScrollRevealSectionProps) 
 
 export default function Home() {
   const containerRef = useRef(null);
+  const isMobile = useIsMobile();
   
   // 监听整个容器的滚动进度
   const { scrollYProgress } = useScroll({
@@ -81,7 +84,7 @@ export default function Home() {
         </div>
 
         <div className="w-full">
-            <OrbitingIntroduction />
+            {isMobile ? <OrbitingIntroductionMobile /> : <OrbitingIntroductionDesktop />}
         </div>
       </ParallaxSection>
 
