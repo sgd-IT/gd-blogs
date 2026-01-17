@@ -1,0 +1,17 @@
+server:
+  port: 8124
+
+spring:
+  datasource:
+    # 生产环境数据库配置 - 请务必修改为实际的生产库账号密码
+    url: jdbc:mysql://localhost:3306/gd_blogs?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: gd_blogs
+    password: DjPhPiRMALpK4DPe
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+file:
+  upload-dir: /www/wwwroot/gdblogs/uploads/images/
+
+# 生产环境通常关闭接口文档
+knife4j:
+  enable: false
