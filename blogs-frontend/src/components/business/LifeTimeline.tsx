@@ -290,7 +290,7 @@ export default function LifeTimeline() {
            </div>
         </div>
 
-        <ChinaTravelMap />
+        {/* <ChinaTravelMap /> */}
       </div>
     </section>
   );

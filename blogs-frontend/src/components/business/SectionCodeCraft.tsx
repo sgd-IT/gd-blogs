@@ -245,7 +245,7 @@ const PixelSkillCard = ({ skill }: { skill: string }) => {
 
 export function SectionCodeCraft() {
   return (
-    <section className="py-24 px-4 md:px-8 relative overflow-hidden bg-white dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
+    <section className="py-12 md:py-24 px-4 md:px-8 relative overflow-hidden bg-white dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
       
       {/* 背景装饰 */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none">
@@ -253,15 +253,15 @@ export function SectionCodeCraft() {
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-[100px]" />
       </div>
 
-      <div className="max-w-6xl mx-auto space-y-20 relative z-10">
+      <div className="max-w-6xl mx-auto space-y-12 md:space-y-20 relative z-10">
         
         {/* 标题 */}
-        <div className="text-center space-y-6">
+        <div className="text-center space-y-4 md:space-y-6">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-6xl font-bold tracking-tight bg-gradient-to-b from-gray-900 to-gray-600 dark:from-white dark:to-white/60 bg-clip-text text-transparent"
+            className="text-3xl md:text-6xl font-bold tracking-tight bg-gradient-to-b from-gray-900 to-gray-600 dark:from-white dark:to-white/60 bg-clip-text text-transparent"
           >
             Craft & Intelligence
           </motion.h2>

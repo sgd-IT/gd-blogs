@@ -104,7 +104,7 @@ const baseOrbitIcons: OrbitIconData[] = [
   },
 ];
 
-const MOBILE_SCALE = 0.7;
+const MOBILE_SCALE = 0.42;
 
 const orbitIcons = baseOrbitIcons.map((icon) => ({
   ...icon,
@@ -114,17 +114,17 @@ const orbitIcons = baseOrbitIcons.map((icon) => ({
 
 const OrbitingIntroductionMobile = () => {
   return (
-    <div className="relative flex min-h-[560px] w-full flex-col items-center justify-center overflow-hidden bg-transparent py-12">
+    <div className="relative flex min-h-[480px] w-full flex-col items-center justify-center overflow-hidden bg-transparent py-12">
       {/* 装饰性背景光晕 */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center -z-10">
-        <div className="h-[480px] w-[480px] rounded-full bg-purple-500/5 blur-[80px]" />
+        <div className="h-[320px] w-[320px] rounded-full bg-purple-500/5 blur-[80px]" />
       </div>
 
       {/* 环绕的图标容器 */}
       <div className="absolute flex h-full w-full items-center justify-center z-0 pointer-events-none">
         {/* 轨道圆环 (视觉辅助) */}
-        <div className="absolute h-[360px] w-[360px] rounded-full border border-dashed border-gray-200 dark:border-gray-800 opacity-20" />
-        <div className="absolute h-[560px] w-[560px] rounded-full border border-gray-100 dark:border-gray-900 opacity-10" />
+        <div className="absolute h-[280px] w-[280px] rounded-full border border-dashed border-gray-200 dark:border-gray-800 opacity-20" />
+        <div className="absolute h-[420px] w-[420px] rounded-full border border-gray-100 dark:border-gray-900 opacity-10" />
 
         {orbitIcons.map(({ Icon, color, delay, radius, size, duration, reverse, startAngle, image, name }, index) => (
           <OrbitingIcon
@@ -148,12 +148,12 @@ const OrbitingIntroductionMobile = () => {
 
       {/* 中心卡片 - 移动端只做布局适配 */}
       <div className="z-10 relative">
-        <motion.div className="relative flex h-auto w-[240px] flex-col items-start justify-center rounded-xl border border-white/10 bg-white/5 p-5 shadow-xl dark:border-gray-700/20 dark:bg-black/10 cursor-pointer">
+        <motion.div className="relative flex h-auto w-[240px] flex-col items-start justify-center rounded-xl border border-white/10 bg-white/5 p-5 shadow-xl dark:border-gray-700/20 dark:bg-black/10 cursor-pointer backdrop-blur-sm">
           <div className="w-full">
-            <h2 className="mb-1 text-[9px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 text-left">
+            <h2 className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 text-left">
               My name is
             </h2>
-            <h1 className="mb-4 text-2xl font-bold text-center text-gray-900 dark:text-white bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-500">
+            <h1 className="mb-4 text-xl font-bold text-center text-gray-900 dark:text-white bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-500">
               Gdblogs
             </h1>
 
