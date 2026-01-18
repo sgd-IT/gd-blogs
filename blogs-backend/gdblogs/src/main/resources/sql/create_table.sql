@@ -103,4 +103,5 @@ INSERT INTO category (name, description, sortOrder) VALUES ('Algorithm', '算法
 INSERT INTO category (name, description, sortOrder) VALUES ('Other', '其他杂项', 5);
 
 -- 初始管理员 (密码为 12345678 的 MD5: 25d55ad283aa400af464c76d713c07ad)
-INSERT INTO user (userAccount, userPassword, userName, userRole, userProfile) VALUES ('admin', '25d55ad283aa400af464c76d713c07ad', 'Admin', 'admin', 'System Administrator');
+INSERT INTO user (userAccount, userPassword, userName, userRole, userProfile) VALUES ('admin', '25d55ad283aa400af464c76d713c07ad', 'Admin', 'admin', 'System Administrator'),
+                                                                                     ('guest', '25d55ad283aa400af464c76d713c07ad', 'Guest', 'guest', '游客账号');
