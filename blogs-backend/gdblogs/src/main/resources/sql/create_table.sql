@@ -102,5 +102,6 @@ INSERT INTO category (name, description, sortOrder) VALUES ('Python', 'Python �
 INSERT INTO category (name, description, sortOrder) VALUES ('Algorithm', '算法与数据结构', 4);
 INSERT INTO category (name, description, sortOrder) VALUES ('Other', '其他杂项', 5);
 
--- 初始管理员 (密码为 12345678，加盐后的 MD5: 6ea864fd823636b777cb2f8e4287d499)
-INSERT INTO user (userAccount, userPassword, userName, userRole, userProfile) VALUES ('admin', '6ea864fd823636b777cb2f8e4287d499', 'Admin', 'admin', 'System Administrator');
+-- 初始管理员 (密码为 12345678 的 MD5: 25d55ad283aa400af464c76d713c07ad)
+INSERT INTO user (userAccount, userPassword, userName, userRole, userProfile) VALUES ('admin', '25d55ad283aa400af464c76d713c07ad', 'Admin', 'admin', 'System Administrator'),
+                                                                                     ('guest', '25d55ad283aa400af464c76d713c07ad', 'Guest', 'guest', '游客账号');

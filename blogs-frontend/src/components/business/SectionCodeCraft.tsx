@@ -8,8 +8,15 @@ import { cn } from "@/lib/utils";
 import { SpotlightCard } from "@/components/ui/spotlight-card";
 
 const skills = [
-  "React", "Next.js", "TypeScript", "TailwindCSS", "Node.js", 
-  "Python", "Docker", "AWS", "Figma", "Git", "OpenAI API", "Prisma"
+  { name: "Spring Boot", level: 9 },
+  { name: "MySQL", level: 8 },
+  { name: "Redis", level: 8 },
+  { name: "RabbitMQ", level: 4 },
+  { name: "Elasticsearch", level: 3 },
+  { name: "Docker", level: 8 },
+  { name: "TypeScript", level: 5 },
+  { name: "Vue.js", level: 5 },
+  { name: "MyBatis", level: 7 }
 ];
 
 // 动态图标组件：会呼吸、发光
@@ -93,7 +100,9 @@ const WindowsTerminal = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ duration: 0.5 }}
-      className="w-full max-w-3xl mx-auto rounded-xl overflow-hidden bg-[#0c0c0c] border border-gray-800 shadow-2xl font-mono text-sm md:text-base mt-10"
+      drag
+      dragConstraints={{ left: -100, right: 100, top: -50, bottom: 50 }}
+      className="w-full max-w-3xl mx-auto rounded-xl overflow-hidden bg-[#0c0c0c] border border-gray-800 shadow-2xl font-mono text-sm md:text-base mt-10 cursor-grab active:cursor-grabbing"
     >
       {/* Title Bar */}
       <div className="bg-[#1f1f1f] px-4 py-2 flex items-center justify-between select-none border-b border-gray-800">
@@ -114,46 +123,51 @@ const WindowsTerminal = () => {
       </div>
       
       {/* Content */}
-      <div className="p-6 text-gray-300 font-mono leading-relaxed bg-black text-left min-h-[300px]">
-        <div className="mb-4">
-          <span>Microsoft Windows [Version 10.0.19045.3693]</span><br/>
-          <span>(c) Microsoft Corporation. All rights reserved.</span>
-        </div>
+      <div className="p-6 text-gray-300 font-mono leading-relaxed bg-black text-left min-h-[300px] relative" style={{ fontFamily: "'Consolas', 'Monaco', 'Courier New', monospace" }}>
+        {/* CRT 扫描线效果 */}
+        <div className="absolute inset-0 pointer-events-none z-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,6px_100%] opacity-20"></div>
 
-        <div className="mb-4">
-          <span className="text-gray-300">C:\Users\Administrator\Desktop\gd-blogs&gt;</span>
-          <span className="ml-2 text-gray-100">{typedCommand}</span>
-          {!showOutput && (
-            <span className="animate-pulse inline-block w-2 h-4 bg-gray-300 align-middle ml-1"></span>
+        <div className="relative z-20">
+          <div className="mb-4">
+            <span>Microsoft Windows [Version 10.0.19045.3693]</span><br/>
+            <span>(c) Microsoft Corporation. All rights reserved.</span>
+          </div>
+
+          <div className="mb-4">
+            <span className="text-gray-300">C:\Users\Administrator\Desktop\gd-blogs&gt;</span>
+            <span className="ml-2 text-gray-100">{typedCommand}</span>
+            {!showOutput && (
+              <span className="animate-pulse inline-block w-2 h-4 bg-gray-300 align-middle ml-1"></span>
+            )}
+          </div>
+
+          {showOutput && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="space-y-1 mb-4 text-white"
+            >
+               <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>&gt; Hello World!</motion.div>
+               <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}>&gt; 欢迎来到我的数字花园。</motion.div>
+               <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }}>&gt; 这里记录了我关于代码、架构和技术的思考。</motion.div>
+               <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.7 }}>&gt; 保持好奇，持续构建。</motion.div>
+            </motion.div>
+          )}
+
+          {completed && (
+            <div>
+               <span className="text-gray-300">C:\Users\Administrator\Desktop\gd-blogs&gt;</span>
+               <span className="animate-pulse inline-block w-2 h-4 bg-gray-300 align-middle ml-1"></span>
+            </div>
           )}
         </div>
-
-        {showOutput && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="space-y-1 mb-4 text-white"
-          >
-             <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>&gt; Hello World!</motion.div>
-             <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}>&gt; 欢迎来到我的数字花园。</motion.div>
-             <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }}>&gt; 这里记录了我关于代码、架构和技术的思考。</motion.div>
-             <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.7 }}>&gt; 保持好奇，持续构建。</motion.div>
-          </motion.div>
-        )}
-
-        {completed && (
-          <div>
-             <span className="text-gray-300">C:\Users\Administrator\Desktop\gd-blogs&gt;</span>
-             <span className="animate-pulse inline-block w-2 h-4 bg-gray-300 align-middle ml-1"></span>
-          </div>
-        )}
       </div>
     </motion.div>
   )
 }
 
-const PixelSkillCard = ({ skill }: { skill: string }) => {
-  const [level, setLevel] = useState(5);
+const PixelSkillCard = ({ skill }: { skill: { name: string; level?: number } }) => {
+  const [level, setLevel] = useState(skill.level ?? 5);
   const maxLevel = 10;
 
   const handleIncrease = (e: React.MouseEvent) => {
@@ -167,7 +181,7 @@ const PixelSkillCard = ({ skill }: { skill: string }) => {
   };
 
   // 简单确定性伪随机
-  const seed = skill.length + skill.charCodeAt(0);
+  const seed = skill.name.length + skill.name.charCodeAt(0);
   const baseStr = 80 + (seed * 7) % 20; 
   const baseInt = 200 + (seed * 13) % 55;
 
@@ -181,19 +195,19 @@ const PixelSkillCard = ({ skill }: { skill: string }) => {
       <div className="absolute inset-0 bg-gray-900 dark:bg-gray-100 translate-x-1 translate-y-1" />
       
       {/* 主体层 */}
-      <div className="relative w-64 bg-white dark:bg-black border-2 border-gray-900 dark:border-white p-4 font-mono text-xs">
+      <div className="relative w-64 bg-white dark:bg-black border-2 border-gray-900 dark:border-cyan-400 dark:shadow-[0_0_10px_rgba(34,211,238,0.3)] p-4 font-mono text-xs">
         {/* Header */}
         <div className="flex items-center justify-between mb-4 border-b-2 border-gray-200 dark:border-gray-800 pb-2">
           <span className="font-bold uppercase truncate max-w-[150px] text-sm" style={{ fontFamily: 'var(--font-pixel)' }}>
-            {skill}
+            {skill.name}
           </span>
           <Scroll className="w-4 h-4 text-gray-400" />
         </div>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-4 mb-4 text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-           <div>STR: <span className="text-gray-900 dark:text-white font-bold transition-all duration-300">{currentStr}</span></div>
-           <div>INT: <span className="text-gray-900 dark:text-white font-bold transition-all duration-300">{currentInt}</span></div>
+           <div>STR: <span className="text-gray-900 dark:text-red-400 text-red-600 font-bold transition-all duration-300">{currentStr}</span></div>
+           <div>INT: <span className="text-gray-900 dark:text-blue-400 text-blue-600 font-bold transition-all duration-300">{currentInt}</span></div>
         </div>
 
         {/* Level Control */}
@@ -218,18 +232,18 @@ const PixelSkillCard = ({ skill }: { skill: string }) => {
         </div>
 
         {/* Progress Bar */}
-        <div className="relative h-3 w-full border border-gray-300 dark:border-gray-700 p-[2px]">
-           <div 
-             className={cn(
-               "h-full transition-all duration-300 relative",
-               level >= maxLevel ? "bg-gradient-to-r from-yellow-400 to-orange-500" : "bg-green-500"
-             )}
-             style={{ width: `${(level / maxLevel) * 100}%` }}
-           >
-             {level >= maxLevel && (
-               <div className="absolute inset-0 bg-white/30 animate-pulse" />
-             )}
-           </div>
+        <div className="flex gap-0.5 h-3 w-full border border-gray-300 dark:border-gray-700 p-[2px]">
+           {Array.from({ length: 10 }).map((_, i) => (
+             <div
+               key={i}
+               className={cn(
+                 "flex-1 h-full transition-all duration-300",
+                 i < level 
+                   ? (level >= maxLevel ? "bg-yellow-400" : "bg-green-500") // 激活颜色
+                   : "bg-transparent" // 未激活
+               )}
+             />
+           ))}
         </div>
         
         {/* Max Level Badge */}
@@ -245,23 +259,26 @@ const PixelSkillCard = ({ skill }: { skill: string }) => {
 
 export function SectionCodeCraft() {
   return (
-    <section className="py-24 px-4 md:px-8 relative overflow-hidden bg-white dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
+    <section className="py-12 md:py-24 px-4 md:px-8 relative overflow-hidden bg-white dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
       
+      {/* 网格背景 */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
+
       {/* 背景装饰 */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none">
         <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500/5 dark:bg-purple-500/10 rounded-full blur-[100px]" />
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-[100px]" />
       </div>
 
-      <div className="max-w-6xl mx-auto space-y-20 relative z-10">
+      <div className="max-w-6xl mx-auto space-y-12 md:space-y-20 relative z-10">
         
         {/* 标题 */}
-        <div className="text-center space-y-6">
+        <div className="text-center space-y-4 md:space-y-6">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-6xl font-bold tracking-tight bg-gradient-to-b from-gray-900 to-gray-600 dark:from-white dark:to-white/60 bg-clip-text text-transparent"
+            className="text-3xl md:text-6xl font-bold tracking-tight bg-gradient-to-b from-gray-900 to-gray-600 dark:from-white dark:to-white/60 bg-clip-text text-transparent"
           >
             Craft & Intelligence
           </motion.h2>
@@ -286,7 +303,7 @@ export function SectionCodeCraft() {
             viewport={{ once: true }}
             className="h-full"
           >
-            <SpotlightCard className="h-full bg-transparent border-none shadow-none" spotlightColor="rgba(59, 130, 246, 0.4)">
+            <SpotlightCard className="h-full bg-transparent border-none shadow-none" spotlightColor="rgba(34, 211, 238, 0.4)">
               <div className="relative p-8 h-full bg-white dark:bg-white/5 hover:shadow-xl transition-all">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent dark:from-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                 
@@ -298,7 +315,7 @@ export function SectionCodeCraft() {
                     </div>
                     <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Engineering</h3>
                     <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
-                      构建高性能、可扩展的 Web 应用。专注于 React 生态系统与现代前端架构。
+                      拒绝重复造轮子。崇尚胶水编程哲学，高效整合开源生态与成熟组件，用最少的代码创造最大的业务价值。
                     </p>
                   </div>
                   <AnimatedIcon icon={Code2} color="text-blue-500" delay={0.2} />
@@ -354,7 +371,7 @@ export function SectionCodeCraft() {
              
              <Marquee pauseOnHover className="[--duration:40s] [--gap:0rem]">
               {skills.map((skill) => (
-                <PixelSkillCard key={skill} skill={skill} />
+                <PixelSkillCard key={skill.name} skill={skill} />
               ))}
             </Marquee>
           </div>
