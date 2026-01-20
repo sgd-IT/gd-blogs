@@ -5,9 +5,7 @@ import Link from "next/link";
 import { ExternalLink, Github, Search, Sparkles, Eye, ThumbsUp, Heart } from "lucide-react";
 import { stripRichText } from "@/lib/html";
 import type { LoginUserVO, PostVO, PageResp, ApiResp } from "@/types";
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8124";
+import { API_PREFIX } from "@/lib/api-config";
 
 const OPEN_SOURCE_PROJECTS = [
   {
@@ -43,7 +41,7 @@ export default function BlogsPage() {
       setLoading(true);
       setErrorMsg(null);
       try {
-        const res = await fetch(`${API_BASE_URL}/post/list/page/vo`, {
+        const res = await fetch(`${API_PREFIX}/post/list/page/vo`, {
           method: "POST",
           credentials: "include",
           headers: { "Content-Type": "application/json" },

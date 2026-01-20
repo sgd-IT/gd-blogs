@@ -5,8 +5,7 @@ import type {
   ApiResp,
   PageResp,
 } from "@/types";
-
-const API_PREFIX = "/api";
+import { API_PREFIX } from "@/lib/api-config";
 
 export async function getNotificationUnreadCount() {
   const res = await fetch(`${API_PREFIX}/notification/unread/count`, {

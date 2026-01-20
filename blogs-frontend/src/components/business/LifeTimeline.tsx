@@ -4,6 +4,7 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { MapPin, Calendar, Camera, Activity, Mountain, Plane } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { RESOURCE_BASE_URL } from "@/lib/api-config";
 import ChinaTravelMap from "./ChinaTravelMap";
 
 // --- Types & Data ---
@@ -20,8 +21,7 @@ interface LifePost {
   photos: { src: string; caption?: string }[];
 }
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8124";
-const LIFE_IMAGE_BASE = `${BACKEND_URL}/uploads/images/life`;
+const LIFE_IMAGE_BASE = `${RESOURCE_BASE_URL}/images/life`;
 
 // Mock Data
 const MOCK_LIFE_DATA: LifePost[] = [

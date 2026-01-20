@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8124";
+import { API_PREFIX } from "@/lib/api-config";
 
 export default function UserLoginPage() {
   const [userAccount, setUserAccount] = useState("");
@@ -15,7 +14,7 @@ export default function UserLoginPage() {
     setErrorMsg(null);
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE_URL}/user/login`, {
+      const res = await fetch(`${API_PREFIX}/user/login`, {
         method: "POST",
         credentials: "include",
         headers: {

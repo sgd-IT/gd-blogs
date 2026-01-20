@@ -5,8 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { stripHtml } from "@/lib/html";
 import type { PostVO, PageResp } from "@/types";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8124";
+import { API_PREFIX } from "@/lib/api-config";
 
 export default function MyPostsPage() {
   const router = useRouter();
@@ -19,7 +18,7 @@ export default function MyPostsPage() {
       setLoading(true);
       setErrorMsg(null);
       try {
-        const res = await fetch(`${API_BASE_URL}/post/my/list/page/vo`, {
+        const res = await fetch(`${API_PREFIX}/post/my/list/page/vo`, {
           method: "POST",
           credentials: "include",
           headers: {
@@ -51,7 +50,7 @@ export default function MyPostsPage() {
     }
 
     try {
-      const res = await fetch(`${API_BASE_URL}/post/delete`, {
+      const res = await fetch(`${API_PREFIX}/post/delete`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

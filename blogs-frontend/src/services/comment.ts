@@ -5,11 +5,10 @@ import type {
   CommentVO,
   PageResp,
 } from "@/types";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8124";
+import { API_PREFIX } from "@/lib/api-config";
 
 export async function listCommentVoByPage(params: CommentQueryRequest) {
-  const res = await fetch(`${API_BASE_URL}/comment/list/page/vo`, {
+  const res = await fetch(`${API_PREFIX}/comment/list/page/vo`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -22,7 +21,7 @@ export async function listCommentVoByPage(params: CommentQueryRequest) {
 }
 
 export async function addComment(data: CommentAddRequest) {
-  const res = await fetch(`${API_BASE_URL}/comment/add`, {
+  const res = await fetch(`${API_PREFIX}/comment/add`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -35,7 +34,7 @@ export async function addComment(data: CommentAddRequest) {
 }
 
 export async function deleteComment(id: number) {
-  const res = await fetch(`${API_BASE_URL}/comment/delete`, {
+  const res = await fetch(`${API_PREFIX}/comment/delete`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

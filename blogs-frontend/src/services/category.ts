@@ -3,15 +3,14 @@
  */
 
 import type { Category, ApiResp } from "@/types";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8124";
+import { API_PREFIX } from "@/lib/api-config";
 
 /**
  * 获取所有分类列表
  */
 export async function fetchCategories(): Promise<Category[]> {
   try {
-    const res = await fetch(`${API_BASE_URL}/category/list`, {
+    const res = await fetch(`${API_PREFIX}/category/list`, {
       credentials: "include",
     });
 

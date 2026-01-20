@@ -34,9 +34,8 @@ import {
   formatSavedTime,
 } from "@/lib/storage";
 import { getExcerpt } from "@/lib/html";
+import { API_PREFIX } from "@/lib/api-config";
 import type { EditorMode, PostVO, PublishSettings as PublishSettingsType } from "@/types";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8124";
 
 const looksLikeHtml = (text: string) => /<[^>]+>/.test((text ?? "").trim());
 
@@ -265,7 +264,7 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
     
     const fetchPost = async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/post/get/vo?id=${postId}`, {
+        const res = await fetch(`${API_PREFIX}/post/get/vo?id=${postId}`, {
           credentials: "include",
         });
         const data = await res.json();
@@ -388,8 +387,8 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
         settings.summary || (plainText.length > 200 ? `${plainText.slice(0, 200)}...` : plainText);
       
       const url = mode === "create" 
-        ? `${API_BASE_URL}/post/add`
-        : `${API_BASE_URL}/post/edit`;
+        ? `${API_PREFIX}/post/add`
+        : `${API_PREFIX}/post/edit`;
       
       const body = mode === "create"
         ? {

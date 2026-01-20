@@ -11,8 +11,7 @@ import type { ReactElement, ReactNode } from "react";
 import { isValidElement } from "react";
 import rehypeHighlight from "rehype-highlight";
 import CommentSection from "@/components/business/CommentSection";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8124";
+import { API_PREFIX } from "@/lib/api-config";
 
 function looksLikeHtml(text: string) {
   return /<[^>]+>/.test(text);
@@ -61,7 +60,7 @@ export default function PostDetailPage() {
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/user/get/login`, {
+        const res = await fetch(`${API_PREFIX}/user/get/login`, {
           credentials: "include",
         });
         const data = await res.json();
@@ -78,7 +77,7 @@ export default function PostDetailPage() {
       setLoading(true);
       setErrorMsg(null);
       try {
-        const res = await fetch(`${API_BASE_URL}/post/get/vo?id=${postId}`, {
+        const res = await fetch(`${API_PREFIX}/post/get/vo?id=${postId}`, {
           credentials: "include",
         });
         const data = await res.json();

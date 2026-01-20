@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { MapPin } from "lucide-react";
+import { RESOURCE_BASE_URL } from "@/lib/api-config";
 
 type GeoFeature = {
   type: "Feature";
@@ -25,8 +26,7 @@ type TravelSpot = {
   note?: string;
 };
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8124";
-const TOUR_IMAGE_BASE = `${BACKEND_URL}/uploads/images/tours`;
+const TOUR_IMAGE_BASE = `${RESOURCE_BASE_URL}/images/tours`;
 
 const TRAVEL_SPOTS: TravelSpot[] = [
   { name: "重庆", pos: [106.55, 29.56], photo: `${TOUR_IMAGE_BASE}/chongqing.jpg` },
