@@ -1,2 +1,0 @@
-{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"D","location":"SectionKnowledge.tsx:fetchHomeNotes:afterResHome","message":"home notes fetch isHome=1 result","data":{"code":0,"recordsLen":5,"ids":[6,7,8,9,10],"firstIsHome":1},"timestamp":1768381931711}
-{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"D","location":"SectionKnowledge.tsx:fetchHomeNotes:afterResHome","message":"home notes fetch isHome=1 result","data":{"code":0,"recordsLen":5,"ids":[6,7,8,9,10],"firstIsHome":1},"timestamp":1768381931719}

@@ -12,6 +12,7 @@ export interface PostQueryRequest {
   isFeatured?: number;
   searchText?: string;
   categoryId?: number;
+  type?: string; // 文章类型：original(原创)/share(分享)
 }
 
 export async function listPostVoByPage(params: PostQueryRequest) {

@@ -162,16 +162,18 @@ export function SectionKnowledge() {
   };
 
   const [notes, setNotes] = useState<NoteCard[]>([]);
+  const [sharePicks, setSharePicks] = useState<PickItem[]>([]);
 
   useEffect(() => {
     const fetchHomeNotes = async () => {
       try {
         const MAX_DISPLAY = 5;
 
-        // 1. 先查手动标记为 "isHome=1" 的文章
+        // 1. 先查手动标记为 "isHome=1" 且类型为 "original" 的文章
         const resHome = await listPostVoByPage({
           pageSize: MAX_DISPLAY,
           isHome: 1,
+          type: "original",
           sortField: "updateTime", // 推荐的按更新时间或创建时间排都可以
           sortOrder: "descend",
         });
@@ -215,7 +217,37 @@ export function SectionKnowledge() {
       }
     };
 
-    fetchHomeNotes();
+    void fetchHomeNotes();
+
+    const fetchSharePicks = async () => {
+      try {
+        // 查询类型为 "share" 且 isHome=1 的文章
+        const res = await listPostVoByPage({
+          pageSize: 10,
+          isHome: 1,
+          type: "share",
+          sortField: "updateTime",
+          sortOrder: "descend",
+        });
+
+        const posts = res.data?.records || [];
+        
+        // 转换为 PickItem 格式
+        const dynamicPicks: PickItem[] = posts.map((post) => ({
+          title: post.title,
+          reason: post.summary || stripRichText(post.content).slice(0, 100) || "精选分享",
+          tags: post.tagList || [],
+          date: post.createTime?.substring(0, 10) || "",
+          url: `/post/${post.id}`,
+        }));
+        
+        setSharePicks(dynamicPicks);
+      } catch (error) {
+        console.error("Failed to fetch share picks:", error);
+      }
+    };
+
+    void fetchSharePicks();
   }, []);
 
   return (
@@ -225,7 +257,7 @@ export function SectionKnowledge() {
 
       <div className="relative z-10 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
         
-        {/* 左栏：技术栈精选（上）+ 项目精选（下） */}
+        {/* 左栏：技术栈精选（上）+ 项目精选（下）+ 用户分享 */}
         <div className="flex flex-col h-full space-y-8">
            <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-blue-100 dark:bg-blue-900/20 rounded-lg text-blue-600 dark:text-blue-400">
@@ -258,6 +290,22 @@ export function SectionKnowledge() {
                 <PickCard key={`project-${i}`} item={item} index={i} />
               ))}
             </div>
+
+            {sharePicks.length > 0 && (
+              <>
+                <div className="pt-4 flex items-center justify-between">
+                  <div className="text-xs font-bold uppercase tracking-wider text-gray-400">
+                    用户分享
+                  </div>
+                  <div className="text-xs text-gray-400">User shares</div>
+                </div>
+                <div className="space-y-4">
+                  {sharePicks.map((item, i) => (
+                    <PickCard key={`share-${i}`} item={item} index={i} />
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
 

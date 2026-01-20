@@ -16,6 +16,7 @@ export interface PostVO {
   title: string;
   content: string;
   categoryId?: number;
+  type?: string; // 文章类型：original(原创)/share(分享)
   coverImage?: string;
   summary?: string;
   createTime?: string;
@@ -50,6 +51,7 @@ export interface PostAddRequest {
   content: string;
   tags: string[];
   categoryId?: number;
+  type?: string; // 文章类型：original(原创)/share(分享)
   coverImage?: string;
   summary?: string;
   isHome?: number;
@@ -62,6 +64,7 @@ export interface PostUpdateRequest {
   content: string;
   tags: string[];
   categoryId?: number;
+  type?: string; // 文章类型：original(原创)/share(分享)
   coverImage?: string;
   summary?: string;
   isHome?: number;
@@ -86,6 +89,7 @@ export interface DraftData extends EditorData {
 // 发布设置
 export interface PublishSettings {
   categoryId?: number;
+  type?: string; // 文章类型：original(原创)/share(分享)
   coverImage?: string;
   summary?: string;
   isHome?: number;

@@ -33,6 +33,7 @@
     "react-dom": "19.2.3",
     "react-leaflet": "^5.0.0",
     "react-markdown": "^10.1.0",
+    "recharts": "^3.6.0",
     "rehype-highlight": "^7.0.2",
     "remark-gfm": "^4.0.1",
     "tailwind-merge": "^3.4.0",
@@ -45,6 +46,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
+    "postcss": "^8",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

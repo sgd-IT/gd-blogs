@@ -109,6 +109,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         List<String> tagList = postQueryRequest.getTags();
         Long userId = postQueryRequest.getUserId();
         Long categoryId = postQueryRequest.getCategoryId();
+        String type = postQueryRequest.getType();
         Integer isFeatured = postQueryRequest.getIsFeatured();
         Integer isHome = postQueryRequest.getIsHome();
         
@@ -126,6 +127,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         queryWrapper.eq(ObjectUtil.isNotNull(id), "id", id);
         queryWrapper.eq(ObjectUtil.isNotNull(userId), "userId", userId);
         queryWrapper.eq(ObjectUtil.isNotNull(categoryId), "categoryId", categoryId);
+        queryWrapper.eq(StrUtil.isNotBlank(type), "type", type);
         queryWrapper.eq(ObjectUtil.isNotNull(isFeatured), "isFeatured", isFeatured);
         queryWrapper.eq(ObjectUtil.isNotNull(isHome), "isHome", isHome);
         queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_ASC),

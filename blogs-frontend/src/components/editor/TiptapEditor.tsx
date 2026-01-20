@@ -292,6 +292,7 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
               setTagsText(post.tagList?.join(", ") || "");
               setPublishSettings({
                 categoryId: post.categoryId,
+                type: post.type,
                 coverImage: post.coverImage,
                 summary: post.summary,
                 isHome: post.isHome,
@@ -312,6 +313,7 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
             setTagsText(post.tagList?.join(", ") || "");
             setPublishSettings({
               categoryId: post.categoryId,
+              type: post.type,
               coverImage: post.coverImage,
               summary: post.summary,
               isHome: post.isHome,
@@ -395,6 +397,7 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
             content: mdContent,
             tags,
             categoryId: settings.categoryId,
+            type: settings.type || "original",
             coverImage: settings.coverImage,
             summary: finalSummary,
             isHome: settings.isHome,
@@ -405,6 +408,7 @@ export default function TiptapEditor({ mode, postId }: TiptapEditorProps) {
             content: mdContent,
             tags,
             categoryId: settings.categoryId,
+            type: settings.type || "original",
             coverImage: settings.coverImage,
             summary: finalSummary,
             isHome: settings.isHome,

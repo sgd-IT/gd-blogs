@@ -206,25 +206,25 @@ const OrbitingIntroduction = () => {
           {/* 内容容器 - 稍微前凸以增强 3D 感 */}
           <div className="w-full" style={{ transform: "translateZ(50px)", transformStyle: "preserve-3d" }}>
             <h2 className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 text-left">
-              My name is
+              你好，我是
             </h2>
-            <h1 className="mb-4 text-3xl font-bold text-center text-gray-900 dark:text-white bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-500">
-              Gdblogs
+            <h1 className="mb-2 text-3xl font-bold text-center text-gray-900 dark:text-white bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-500">
+              木东
             </h1>
+            <p className="mb-4 text-xs text-gray-500 dark:text-gray-400 text-left">
+              AI全栈开发 · 技术写作 · 项目实践
+            </p>
 
             <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-300/50 to-transparent dark:via-gray-700/50 mb-4" />
 
             <h3 className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 text-left">
-              I&apos;m a
+              当前关注
             </h3>
             <ul className="space-y-1 text-sm font-medium text-gray-600 dark:text-gray-400 text-left">
-              <li>Influencer (&gt;286K followers)</li>
-              <li>Chromium Developer</li>
-              <li>Web Developer</li>
-              <li>Game Developer</li>
-              <li>Game Critic</li>
-              <li>Digital Nomad</li>
-              <li>Trader</li>
+              <li>Agent Skills/vibe coding</li>
+              <li>Spring Boot / 后端工程化</li>
+              <li>各种开发方法和模式与Ai的使用部署</li>
+              <li>持续记录与开源分享</li>
             </ul>
           </div>
 

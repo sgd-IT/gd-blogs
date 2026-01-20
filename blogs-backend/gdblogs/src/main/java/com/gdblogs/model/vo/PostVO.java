@@ -35,6 +35,11 @@ public class PostVO implements Serializable {
     private Long categoryId;
 
     /**
+     * 文章类型：original(原创)/share(分享)
+     */
+    private String type;
+
+    /**
      * 封面图片
      */
     private String coverImage;

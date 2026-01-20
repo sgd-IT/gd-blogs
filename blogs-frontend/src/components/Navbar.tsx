@@ -16,7 +16,7 @@ const navItems = [
   { name: "首页", path: "/" },
   { name: "博客", path: "/blog" },
   { name: "项目", path: "/projects" },
-  { name: "关于", path: "/about" },
+  { name: "个人中心", path: "/profile" },
 ];
 
 export default function Navbar() {
@@ -105,7 +105,7 @@ export default function Navbar() {
                     href="/user/center" 
                     className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-zinc-800"
                   >
-                    个人中心
+                    设置
                   </Link>
                   <Link
                     href="/user/notifications"

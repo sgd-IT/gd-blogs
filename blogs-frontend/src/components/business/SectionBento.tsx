@@ -9,6 +9,7 @@ import {
 import { cn } from "@/lib/utils";
 import Marquee from "@/components/ui/marquee";
 import { MagneticButton } from "@/components/ui/magnetic-button";
+import { AgeActivityChart } from "./AgeActivityChart";
 
 // 模拟项目数据
 const FEATURED_PROJECT = {
@@ -17,9 +18,6 @@ const FEATURED_PROJECT = {
   tags: ["Spring Cloud", "Docker", "Vue 3", "Redis"],
   image: "bg-gradient-to-br from-blue-900 to-slate-900" 
 };
-
-// 模拟最近代码量数值 (纯数据)
-const MOCK_COUNTS = [2450, 3200, 1890, 4100, 1200, 5600, 1800];
 
 // --- 辅助组件：卡片容器 ---
 const BentoCard = ({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) => {
@@ -63,24 +61,6 @@ const BentoCard = ({ children, className, delay = 0 }: { children: React.ReactNo
 };
 
 export function SectionBento() {
-  const [codingStats, setCodingStats] = React.useState(
-    MOCK_COUNTS.map(count => ({ count, date: "", day: "" }))
-  );
-
-  React.useEffect(() => {
-    const today = new Date();
-    const newStats = MOCK_COUNTS.map((count, index) => {
-      const targetDate = new Date(today);
-      targetDate.setDate(today.getDate() - (6 - index));
-      return {
-        count,
-        date: targetDate.getDate().toString().padStart(2, '0'),
-        day: targetDate.toLocaleDateString('en-US', { weekday: 'short' }),
-      };
-    });
-    setCodingStats(newStats);
-  }, []);
-
   return (
     <section className="py-24 px-4 md:px-8 relative overflow-hidden bg-gradient-to-b from-white via-gray-50 to-gray-50 dark:from-black dark:via-black/60 dark:to-black text-gray-900 dark:text-white transition-colors duration-300">
       
@@ -174,51 +154,12 @@ export function SectionBento() {
           <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-gray-50 dark:from-black to-transparent z-10" />
         </BentoCard>
 
-        {/* 3. Coding Stats */}
-        <BentoCard delay={0.2} className="md:col-span-1 md:row-span-1 flex flex-col p-6 min-h-[180px]">
-           <div className="flex items-center justify-between mb-4">
-             <div className="text-xs text-gray-500 font-bold uppercase tracking-wider">7-Day Lines</div>
-             <div className="text-xs text-blue-500 dark:text-blue-400 font-mono font-bold">+20.3k</div>
-           </div>
-           
-           <div className="flex-1 w-full flex items-end justify-between gap-2 min-h-[80px] relative">
-             <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20">
-               <div className="w-full border-t border-dashed border-gray-400"></div>
-               <div className="w-full border-t border-dashed border-gray-400"></div>
-               <div className="w-full border-t border-dashed border-gray-400"></div>
-             </div>
-
-             {codingStats.map((stat, i) => {
-               const isMax = stat.count === Math.max(...codingStats.map(s => s.count));
-               return (
-               <div key={i} className="relative flex-1 h-full flex items-end group/bar z-10">
-                  <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover/bar:opacity-100 transition-opacity whitespace-nowrap z-20 pointer-events-none shadow-xl border border-gray-700">
-                    <span className="font-bold">{stat.count}</span> <span className="text-gray-400">lines</span>
-                  </div>
-                  
-                  <div className="absolute bottom-0 w-full h-full bg-gray-200/50 dark:bg-white/5 rounded-t-sm" />
-
-                  <motion.div 
-                    initial={{ height: 0 }}
-                    whileInView={{ height: `${(stat.count / 6000) * 100}%` }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.2 + (i * 0.1), ease: "easeOut" }}
-                    className={cn(
-                      "w-full rounded-t-sm relative z-10 transition-all duration-300",
-                      isMax 
-                        ? "bg-gradient-to-t from-blue-600 to-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.4)]" 
-                        : "bg-gradient-to-t from-blue-500 to-blue-400 group-hover/bar:from-blue-400 group-hover/bar:to-blue-300"
-                    )}
-                  />
-                  
-                  <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] text-gray-400 font-mono font-medium">
-                    {stat.date}
-                  </div>
-               </div>
-               );
-             })}
-           </div>
-           <div className="h-2"></div>
+        {/* 3. Time Distribution (New Chart) */}
+        <BentoCard
+          delay={0.2}
+          className="md:col-span-1 md:row-span-1 flex flex-col p-6 min-h-[230px] md:w-[calc(100%+50px)] md:justify-self-center bg-gradient-to-br from-white to-gray-50 dark:from-white/5 dark:to-black/20 border-gray-200/70 dark:border-white/10 shadow-sm hover:shadow-lg"
+        >
+           <AgeActivityChart />
         </BentoCard>
         
         {/* 4. Latest Post */}

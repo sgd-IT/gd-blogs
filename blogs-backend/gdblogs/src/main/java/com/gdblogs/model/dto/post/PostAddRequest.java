@@ -41,6 +41,11 @@ public class PostAddRequest implements Serializable {
     private Long categoryId;
 
     /**
+     * 文章类型：original(原创)/share(分享)
+     */
+    private String type;
+
+    /**
      * 是否精选
      */
     private Integer isFeatured;

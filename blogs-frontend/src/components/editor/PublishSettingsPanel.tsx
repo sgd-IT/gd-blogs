@@ -75,6 +75,41 @@ export default function PublishSettingsPanel({ value, autoSummary, onChange }: P
         </select>
       </div>
 
+      {/* 文章类型选择 */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          文章类型
+        </label>
+        <div className="flex gap-4">
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="radio"
+              name="postType"
+              value="original"
+              checked={value.type === "original" || !value.type}
+              onChange={(e) => onChange({ ...value, type: e.target.value })}
+              className="h-4 w-4 border-gray-300 text-purple-600 focus:ring-purple-500"
+            />
+            <span className="text-sm text-gray-700 dark:text-gray-300">
+              原创（个人心得、项目）
+            </span>
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="radio"
+              name="postType"
+              value="share"
+              checked={value.type === "share"}
+              onChange={(e) => onChange({ ...value, type: e.target.value })}
+              className="h-4 w-4 border-gray-300 text-purple-600 focus:ring-purple-500"
+            />
+            <span className="text-sm text-gray-700 dark:text-gray-300">
+              分享（推荐的资源、技术）
+            </span>
+          </label>
+        </div>
+      </div>
+
       {/* 封面图片 */}
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
